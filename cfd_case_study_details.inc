@@ -43,7 +43,7 @@ function cfd_case_study_completed_proposals_all()
 		} //$row = $result->fetchObject()
 		$preference_header = array(
 			'No',
-			'case study Project',
+			'Case Study Project',
 			'Abstract File',
 			'Contributor Name',
 			'Institute',
@@ -88,7 +88,7 @@ function cfd_case_study_progress_all()
 		} //$row = $result->fetchObject()
 		$preference_header = array(
 			'No',
-			'case study Project',
+			'Case Study Project',
 			'Contributor Name',
 			'Institute',
 			'Year'

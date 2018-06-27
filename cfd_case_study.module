@@ -69,19 +69,6 @@ function cfd_case_study_menu()
 		'type'=> MENU_CALLBACK,
 		'file'=> 'manage_proposal.inc'
 	);
-	$items['case-study-project/manage-proposal/solution-proposal-approve'] = array(
-		'title'=> 'Approve Solution Proposal',
-		'description'=> 'Approve Solution Proposal',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_solution_proposal_approval_form'
-		),
-		'access arguments'=> array(
-			'Case Study manage proposal'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'manage_solution_proposal.inc'
-	);
 	$items['case-study-project/manage-proposal/edit'] = array(
 		'title'=> 'Edit Proposal',
 		'description'=> 'Edit Proposal',
@@ -108,45 +95,8 @@ function cfd_case_study_menu()
 		'type'=> MENU_CALLBACK,
 		'file'=> 'manage_proposal.inc'
 	);
-	/*$items['case-study-project/show-proposal'] = array(
-		'title'=> 'Case Study Solution Proposal',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_solution_proposal_form'
-		),
-		'access arguments'=> array(
-			'Case Study propose solution'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'solution_proposal.inc'
-	);*/
-	/* CODE REVIEW */
-	/*$items['case-study-project/code-approval'] = array(
-		'title'=> 'LM Manage Code Approval',
-		'description'=> 'Manage Code Approval',
-		'page callback'=> 'cfd_case_study_code_approval',
-		'access arguments'=> array(
-			'Case Study approve code'
-		),
-		'type'=> MENU_NORMAL_ITEM,
-		'file'=> 'code_approval.inc'
-	);
-	$items['case-study-project/abstract-approval/approve'] = array(
-		'title'=> 'Code Approval',
-		'description'=> 'Code Approval',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_abstract_approval_form'
-		),
-		'access arguments'=> array(
-			'Case Study approve code'
-		),
-		'type'=> MENU_DEFAULT_LOCAL_TASK,
-		'weight'=> 1,
-		'file'=> 'code_approval.inc'
-	);*/
 	$items['case-study-project/abstract-approval/bulk'] = array(
-		'title'=> 'Bulk Manage',
+		'title'=> 'CS Manage Code',
 		'description'=> 'Bulk Mangage',
 		'page callback'=> 'drupal_get_form',
 		'page arguments'=> array(
@@ -159,62 +109,10 @@ function cfd_case_study_menu()
 		'weight'=> 2,
 		'file'=> 'abstract_bulk_approval.inc'
 	);
-	$items['case-study-project/code-approval/bulk'] = array(
-		'title'=> 'Bulk Manage',
-		'description'=> 'Bulk Mangage',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_bulk_approval_form'
-		),
-		'access arguments'=> array(
-			'Case Study bulk manage abstract'
-		),
-		'type'=> MENU_LOCAL_TASK,
-		'weight'=> 2,
-		'file'=> 'bulk_approval.inc'
-	);
-	/*$items['cfd_case_study/code_approval/dependency'] = array(
-	'title'=> 'Dependency',
-	'description'=> 'Dependency Mangage',
-	'page callback'=> 'drupal_get_form',
-	'page arguments'=> array('cfd_case_study_dependency_approval_form'),
-	'access arguments'=> array('Case Study bulk manage abstract'),
-	'type'=> MENU_LOCAL_TASK,
-	'weight'=> 3,
-	'file'=> 'dependency_approval.inc',
-	);*/
-	$items['case-study-project/code-approval/upload'] = array(
-		'title'=> 'Upload Code',
-		'description'=> 'Admin Upload',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_bulk_upload_code_form'
-		),
-		'access arguments'=> array(
-			'Case Study bulk manage abstract'
-		),
-		'type'=> MENU_CALLBACK,
-		'weight'=> 4,
-		'file'=> 'bulk_upload_code.inc'
-	);
-	$items['case-study-project/code-approval/notes'] = array(
-		'title'=> 'Notes for Reviewers',
-		'description'=> 'Notes for Reviewers',
-		'page callback'=> 'drupal_get_form',
-		'page arguments'=> array(
-			'cfd_case_study_lab_notes_form'
-		),
-		'access arguments'=> array(
-			'Case Study bulk manage abstract'
-		),
-		'type'=> MENU_CALLBACK,
-		'weight'=> 4,
-		'file'=> 'notes.inc'
-	);
 	/* CODE UPLOAD */
 	/* CODE UPLOAD */
 	$items['case-study-project/abstract-code'] = array(
-		'title'=> 'Abstract and Project Files Upload',
+		'title'=> 'Case Study Project Directory Submission',
 		'description'=> 'Abstract Submission',
 		'page callback'=> 'cfd_case_study_abstract',
 		'access callback'=> 'user_access',
@@ -223,19 +121,8 @@ function cfd_case_study_menu()
 		),
 		'file'=> 'upload_code.inc'
 	);
-	$items['case-study-project/abstract-code/case-study-project-list'] = array(
-		'title'=> 'Case Study',
-		'description'=> 'List Experiments',
-		'page callback'=> 'cfd_case_study_abstract',
-		'access arguments'=> array(
-			'Case Study upload abstract'
-		),
-		'type'=> MENU_DEFAULT_LOCAL_TASK,
-		'file'=> 'upload_code.inc',
-		'weight'=> 1
-	);
 	$items['case-study-project/abstract-code/upload'] = array(
-		'title'=> 'Abstract and Project Upload',
+		'title'=> 'Case Study Project Directory Submission',
 		'description'=> 'Project Upload',
 		'page callback'=> 'drupal_get_form',
 		'access callback'=> 'user_access',
@@ -260,56 +147,6 @@ function cfd_case_study_menu()
 		'file'=> 'upload_code_delete.inc'
 	);
 	/* CODE DOWNLOADS */
-	$items['case-study-project/download/file'] = array(
-		'title'=> 'Code Download',
-		'description'=> 'Code Download',
-		'page callback'=> 'cfd_case_study_download_solution_file',
-		'access arguments'=> array(
-			'Case Study download code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'download.inc'
-	);
-	$items['case-study-project/download/solution'] = array(
-		'title'=> 'Code Download',
-		'description'=> 'Code Download',
-		'page callback'=> 'cfd_case_study_download_solution',
-		'access arguments'=> array(
-			'Case Study download code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'download.inc'
-	);
-	$items['case-study-project/download/experiment'] = array(
-		'title'=> 'Code Download',
-		'description'=> 'Code Download',
-		'page callback'=> 'cfd_case_study_download_experiment',
-		'access arguments'=> array(
-			'Case Study download code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'download.inc'
-	);
-	$items['case-study-project/download/lab'] = array(
-		'title'=> 'Code Download',
-		'description'=> 'Code Download',
-		'page callback'=> 'cfd_case_study_download_lab',
-		'access arguments'=> array(
-			'Case Study download code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'download.inc'
-	);
-	$items['case-study-project/full-download/experiment'] = array(
-		'title'=> 'Code Download',
-		'description'=> 'Code Download',
-		'page callback'=> 'cfd_case_study_download_completed_project',
-		'access arguments'=> array(
-			'Case Study approve code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'full_download.inc'
-	);
 	$items['case-study-project/full-download/project'] = array(
 		'title'=> 'Code Download',
 		'description'=> 'Code Download',
@@ -371,27 +208,6 @@ function cfd_case_study_menu()
 		'type'=> MENU_CALLBACK,
 		'file'=> 'download.inc'
 	);
-	/* LATEX SCRIPT */
-	$items['case-study-project/generate-lab'] = array(
-		'title'=> 'Generate Lab',
-		'description'=> 'Generate Lab From Latex Script',
-		'page callback'=> 'cfd_case_study_download_lab_pdf',
-		'access arguments'=> array(
-			'Case Study generate lab'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'latex.inc'
-	);
-	$items['case-study-project/delete-lab'] = array(
-		'title'=> 'Delete Lab PDF',
-		'description'=> 'Delete Lab PDF',
-		'page callback'=> 'cfd_case_study_delete_lab_pdf',
-		'access arguments'=> array(
-			'Case Study approve code'
-		),
-		'type'=> MENU_CALLBACK,
-		'file'=> 'latex.inc'
-	);
 	/* ADMIN SETTINGS */
 	$items['admin/settings/case-study'] = array(
 		'title'=> 'Case Study Settings',
@@ -407,16 +223,7 @@ function cfd_case_study_menu()
 		'file'=> 'settings.inc'
 	);
 	/* AJAX REQUEST */
-	$items["lab-bulk-manage-exp/ajax"] = array(
-		"title" => "Ajax callbacks",
-		"page callback" => "lab_bulk_manage_exp_ajax",
-		"access arguments" => array(
-			" Case Study bulk manage abstract"
-		),
-		"type" => MENU_CALLBACK,
-		'file'=> 'bulk_approval.inc'
-	);
-	$items['case-study-project/certificates'] = array(
+	/*$items['case-study-project/certificates'] = array(
 		'title'=> 'List of Case Study Certificates',
 		'description'=> 'List of Case Study Certificates',
 		'page callback'=> '_list_cfd_case_study_certificates',
@@ -471,7 +278,7 @@ function cfd_case_study_menu()
 		),
 		'type'=> MENU_CALLBACK,
 		'file'=> 'pdf/verify_certificates.inc'
-	);
+	);*/
 	return $items;
 }
 /**
