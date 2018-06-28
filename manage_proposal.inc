@@ -139,22 +139,6 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
 		drupal_goto('case-study-project/manage-proposal');
 		return;
 	}
-	if ($proposal_data->project_guide_name == "NULL" || $proposal_data->project_guide_name == "")
-	{
-		$project_guide_name = "Not Entered";
-	} //$proposal_data->project_guide_name == NULL
-	else
-	{
-		$project_guide_name = $proposal_data->project_guide_name;
-	}
-	if ($proposal_data->project_guide_email_id == "NULL" || $proposal_data->project_guide_email_id == "")
-	{
-		$project_guide_email_id = "Not Entered";
-	} //$proposal_data->project_guide_email_id == NULL
-	else
-	{
-		$project_guide_email_id = $proposal_data->project_guide_email_id;
-	}
 	$form['contributor_name'] = array(
 		'#type' => 'item',
 		'#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),

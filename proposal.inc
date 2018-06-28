@@ -547,5 +547,5 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 }
 
 function case_study_path() {
-  return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'uploads/case_study_uploads/';
+  return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/case_study_uploads/';
 }
