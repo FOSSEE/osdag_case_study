@@ -57,6 +57,6 @@ function cfd_case_study_project_files() {
 	header("Expires: 0");
 	header("Pragma: no-cache");
 	readfile($root_path . $directory_name . $abstract_file);
-	ob_end_flush();
+	//ob_end_flush();
 	ob_clean();
 }
