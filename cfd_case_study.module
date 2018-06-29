@@ -521,7 +521,7 @@ function _df_dir_name($project, $proposar_name)
 }
 function cfd_case_study_document_path()
 {
-	return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'uploads/case_study_uploads/';
+	return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/case_study_uploads/';
 }
 function DF_RenameDir($proposal_id, $dir_name)
 {
