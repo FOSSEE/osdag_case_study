@@ -443,7 +443,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 	$query_pro->fields('case_study_proposal');
 	//$query_pro->condition('id', $proposal_data->id);
 	$abstracts_pro = $query_pro->execute()->fetchObject();
-	$proposal_id = $abstracts_pro->id;
+	$proposal_id = $query_pro->id;
 	$dest_path = $directory_name . '/';
 	$dest_path1 = $root_path . $dest_path;
 	if (!is_dir($root_path . $dest_path))
@@ -496,7 +496,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 								":approvar_uid" => 0,
 								":filename" => $_FILES['files']['name'][$file_form_name],
 								":filepath" => $_FILES['files']['name'][$file_form_name],
-								":filemime" => mime_content_type($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]),
+								":filemime" => mime_content_type($root_path . $dest_path_project_files . $_FILES['files']['name'][$file_form_name]),
 								":filesize" => $_FILES['files']['size'][$file_form_name],
 								":filetype" => 'A',
 								":timestamp" => time()

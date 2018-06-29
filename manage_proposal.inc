@@ -737,7 +737,7 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 		)
 	);
 	$form['project_title'] = array(
-		'#type' => 'textarea',
+		'#type' => 'textfield',
 		'#title' => t('Title of the Case Study Project'),
 		'#size' => 300,
 		'#maxlength' => 350,
@@ -749,11 +749,6 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 		'#title' => t('Date of Proposal'),
 		'#default_value' => date('d/m/Y', $proposal_data->creation_date),
 		'#disabled' => TRUE,
-	);
-	$form['expected_completion_date'] =array(
-		'#type' => 'textfield',
-		'#title' => t('Expected Date of Completion'),
-		'#default_value' => date('d/m/Y', $proposal_data->expected_date_of_completion),
 	);
 	$form['delete_proposal'] = array(
 		'#type' => 'checkbox',
@@ -819,7 +814,7 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 		);
 		if (!drupal_mail('case_study', 'case_study_proposal_deleted', $email_to, user_preferred_language($user), $params, $from, TRUE))
 			drupal_set_message('Error sending email message.', 'error');
-		drupal_set_message(t('CaseStudy Cicuit simulation proposal has been deleted.'), 'status');
+		drupal_set_message(t('Case Study proposal has been deleted.'), 'status');
 		if (rrmdir_project($proposal_id) == TRUE)
 		{
 			$query = db_delete('case_study_proposal');
@@ -852,8 +847,7 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 				pincode=:pincode,
 				state=:state,
 				project_title=:project_title,
-				directory_name=:directory_name,
-				expected_date_of_completion=:expected_date_of_completion 
+				directory_name=:directory_name
 				WHERE id=:proposal_id";
 	$args = array(
 		':name_title' => $v['name_title'],
@@ -864,7 +858,6 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 		':state' => $v['all_state'],
 		':project_title' => $project_title,
 		':directory_name' => $directory_name,
-		':expected_date_of_completion' => strtotime(date('d/m/Y',$v['expected_date_of_completion'])),
 		':proposal_id' => $proposal_id
 	);
 	$result = db_query($query, $args);

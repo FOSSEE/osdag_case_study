@@ -137,12 +137,6 @@ function _case_study_details($case_study_default_value)
 {
 	$case_study_details = _case_study_information($case_study_default_value);
 	if ($case_study_default_value != 0) {
-		if($case_study_details->reference != NULL){
-		$url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-	        $reference = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $case_study_details->reference);
-		}else{
-		$reference = 'Not provided';
-		}
 		$form['case_study_details']['#markup'] = '<span style="color: rgb(128, 0, 0);"><strong>About the case study</strong></span></td><td style="width: 35%;"><br />' . '<ul>' . '<li><strong>Proposer Name:</strong> ' . $case_study_details->name_title . ' ' . $case_study_details->contributor_name . '</li>' . '<li><strong>Title of the Flowhseet:</strong> ' . $case_study_details->project_title . '</li>' . '<li><strong>University:</strong> ' . $case_study_details->university . '</li>' . '</ul>';
 		$details = $form['case_study_details']['#markup'];
 		return $details;

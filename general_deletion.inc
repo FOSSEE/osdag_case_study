@@ -20,7 +20,7 @@ function case_study_abstract_delete_project($proposal_id)
 	$query->fields('case_study_submitted_abstracts_file');
 	$query->condition('proposal_id', $proposal_id);
 	$abstract_q = $query->execute();
-	$dir_project_files = $root_path . $proposal_data->directory_name . '/';
+	$dir_project_files = $root_path . $proposal_data->directory_name;
 	while ($abstract_data = $abstract_q->fetchObject())
 	{
 		if (is_dir($dir_project_files)){
