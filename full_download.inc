@@ -28,8 +28,8 @@ function cfd_case_study_download_full_project()
 	$query->fields('case_study_submitted_abstracts_file');
 	$query->condition('proposal_id', $id);
 	$project_files = $query->execute();
-	while ($esim_project_files = $project_files->fetchObject()) {
-		$zip->addFile($root_path . $CASE_STUDY_PATH . $esim_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($esim_project_files->filename)));
+	while ($cfd_project_files = $project_files->fetchObject()) {
+		$zip->addFile($root_path . $CASE_STUDY_PATH . $cfd_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($cfd_project_files->filename)));
 	}
 	$zip_file_count = $zip->numFiles;
 	$zip->close();
@@ -93,8 +93,8 @@ function circuit_simulation_download_completed_project()
 	$query->condition('proposal_id', $id);
 	$project_files = $query->execute();
 	//var_dump($root_path . $CASE_STUDY_PATH . 'project_files/');die;
-	while ($esim_project_files = $project_files->fetchObject()) {
-		$zip->addFile($root_path . $CASE_STUDY_PATH . 'project_files/' . $esim_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($esim_project_files->filename)));
+	while ($cfd_project_files = $project_files->fetchObject()) {
+		$zip->addFile($root_path . $CASE_STUDY_PATH . 'project_files/' . $cfd_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($cfd_project_files->filename)));
 	}
 	$zip_file_count = $zip->numFiles;
 	$zip->close();

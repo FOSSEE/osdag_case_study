@@ -34,7 +34,7 @@ function cfd_case_study_menu()
 	);
 	$items['case-study-project/manage-proposal/pending'] = array(
 		'title'=> 'Pending Proposals',
-		'description'=> 'Pending  Case Study Proposals Queue',
+		'description'=> 'Pending Case Study Proposals Queue',
 		'page callback'=> 'cfd_case_study_proposal_pending',
 		'access callback'=> 'user_access',
 		'access arguments'=> array(
@@ -398,7 +398,7 @@ function cfd_case_study_get_proposal()
 	$proposal_data = $proposal_q->fetchObject();
 	if (!$proposal_data)
 	{
-		drupal_set_message("You do not have any approved  Case Study proposal. Please propose the Case Study proposal", 'error');
+		drupal_set_message("You do not have any approved  Case Study proposal. Please propose a Case Study", 'error');
 		drupal_goto('');
 	} //!$proposal_data
 	switch ($proposal_data->approval_status)

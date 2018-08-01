@@ -59,7 +59,7 @@ function cfd_case_study_abstract()
 		}
 		if ($abstracts_q->is_submitted == '')
 		{
-			$url = l('Upload abstract', 'case-study-project/abstract-code/upload');
+			$url = l('Upload Case Directory', 'case-study-project/abstract-code/upload');
 		} //$abstracts_q->is_submitted == ''
 		else if ($abstracts_q->is_submitted == 1)
 		{
@@ -72,13 +72,13 @@ function cfd_case_study_abstract()
 	} //$abstracts_query_process == TRUE
 	else
 	{
-		$url = l('Upload abstract', 'case-study-project/abstract-code/upload');
+		$url = l('Upload Case Directory', 'case-study-project/abstract-code/upload');
 		$abstracts_query_process_filename = "File not uploaded";
 	}
 	$return_html .= '<strong>Contributor Name:</strong><br />' . $proposal_data->name_title . ' ' . $proposal_data->contributor_name . '<br /><br />';
 	$return_html .= '<strong>Title of the Case Study Project:</strong><br />' . $proposal_data->project_title . '<br /><br />';
 	$return_html .= '<strong>Uploaded abstract of the project:</strong><br />' . $abstract_filename . '<br /><br />';
-	$return_html .= '<strong>Uploaded project files:</strong><br />' . $abstracts_query_process_filename . '<br /><br />';
+	$return_html .= '<strong>Uploaded Case Directory:</strong><br />' . $abstracts_query_process_filename . '<br /><br />';
 	$return_html .= $url . '<br />';
 	return $return_html;
 }
@@ -123,7 +123,7 @@ function cfd_case_study_upload_abstract_code_form($form, &$form_state)
 	{
 		if ($abstracts_q->is_submitted == 1)
 		{
-			drupal_set_message(t('You have already submited your project files, hence you can not upload more code, for any query please write to us.'), 'error', $repeat = FALSE);
+			drupal_set_message(t('You have already submited your Case Directory, hence you can not upload any more, for any query please write to us.'), 'error', $repeat = FALSE);
 			drupal_goto('case-study-project/abstract-code');
 			//return;
 		} //$abstracts_q->is_submitted == 1
@@ -146,7 +146,7 @@ function cfd_case_study_upload_abstract_code_form($form, &$form_state)
 	} //!$existing_uploaded_S_file
 	$form['upload_case_study_developed_process'] = array(
 		'#type' => 'file',
-		'#title' => t('Upload the Project Files'),
+		'#title' => t('Upload the Case Directory'),
 		//'#required' => TRUE,
 		'#description' => t('<span style="color:red;">Current File :</span> ' . $existing_uploaded_S_file->filename . '<br />Separate filenames with underscore. No spaces or any special characters allowed in filename.') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('case_study_project_files_extensions', '') . '</span>'
 	);
