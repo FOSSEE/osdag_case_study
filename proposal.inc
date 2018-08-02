@@ -467,7 +467,8 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 	$query_pro->fields('case_study_proposal');
 	//$query_pro->condition('id', $proposal_data->id);
 	$abstracts_pro = $query_pro->execute()->fetchObject();
-	$proposal_id = $abstracts_pro->id;
+	//$proposal_id = $abstracts_pro->id;
+	//var_dump($proposal_id);die;
 				//$proposal_id = $result1->id;
 				$query_abstracts = "INSERT INTO {case_study_submitted_abstracts} (
 	proposal_id,
@@ -477,7 +478,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 	abstract_approval_date,
 	is_submitted) VALUES (:proposal_id, :approver_uid, :abstract_approval_status,:abstract_upload_date, :abstract_approval_date, :is_submitted)";
 		$args = array(
-			":proposal_id" => $proposal_id,
+			":proposal_id" => $result1,
 			":approver_uid" => 0,
 			":abstract_approval_status" => 0,
 			":abstract_upload_date" => time(),
@@ -491,7 +492,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
           VALUES (:submitted_abstract_id, :proposal_id, :uid, :approvar_uid, :filename, :filepath, :filemime, :filesize, :filetype, :timestamp)";
 							$args = array(
 								":submitted_abstract_id" => $submitted_abstract_id,
-								":proposal_id" => $proposal_id,
+								":proposal_id" => $result1,
 								":uid" => $user->uid,
 								":approvar_uid" => 0,
 								":filename" => $_FILES['files']['name'][$file_form_name],
