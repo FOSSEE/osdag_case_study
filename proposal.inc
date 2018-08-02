@@ -441,9 +441,9 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 	//var_dump($result1->id);die;
 	$query_pro = db_select('case_study_proposal');
 	$query_pro->fields('case_study_proposal');
-	$query_pro->condition('id', $proposal_data->id);
+//	$query_pro->condition('id', $proposal_data->id);
 	$abstracts_pro = $query_pro->execute()->fetchObject();
-	$proposal_id = $abstracts_pro->id;
+//	$proposal_id = $abstracts_pro->id;
 	$dest_path = $directory_name . '/';
 	$dest_path1 = $root_path . $dest_path;
 	if (!is_dir($root_path . $dest_path))
