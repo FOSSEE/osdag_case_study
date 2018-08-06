@@ -56,7 +56,7 @@ function cfd_case_study_completed_proposals_all()
 	}
 	return $output;
 }
-// eSim case study display in progress proposals
+// case study display in progress proposals
 function cfd_case_study_progress_all()
 {
 	$page_content = "";
