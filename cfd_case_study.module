@@ -223,14 +223,14 @@ function cfd_case_study_menu()
 		'file'=> 'settings.inc'
 	);
 	/* AJAX REQUEST */
-	/*$items['case-study-project/certificates'] = array(
+	$items['case-study-project/certificates'] = array(
 		'title'=> 'List of Case Study Certificates',
 		'description'=> 'List of Case Study Certificates',
-		'page callback'=> '_list_cfd_case_study_certificates',
+		'page callback'=> '_list_case_study_certificates',
 		'access arguments'=> array(
 			'list Case Study certificates'
 		),
-		'file'=> 'pdf/list_cfd_case_study_certificate.inc'
+		'file'=> 'pdf/list_case_study_certificate.inc'
 	);
 	$items['case-study-project/certificates/generate-pdf'] = array(
 		'title'=> 'Download Certificate',
@@ -245,7 +245,7 @@ function cfd_case_study_menu()
 		),
 		'file'=> 'pdf/cert_new.inc'
 	);
-	$items['case-study-project/certificates-custom'] = array(
+	/*$items['case-study-project/certificates-custom'] = array(
 		'title'=> 'List of Case Study Custom Certificates',
 		'description'=> 'List of Case Study Custom Certificates',
 		'page callback'=> '_list_cfd_case_study_custom_certificates',
@@ -266,11 +266,11 @@ function cfd_case_study_menu()
 			'generate pdf'
 		),
 		'file'=> 'pdf/mentor_cert_pdf.inc'
-	);
+	); */
 	$items['case-study-project/certificates/verify'] = array(
 		"title" => "Certificate Verification",
 		"page callback" => "verify_certificates",
-'page arguments'=> array(
+		'page arguments'=> array(
 			'verify_certificates'
 		),
 		"access arguments" => array(
@@ -278,7 +278,7 @@ function cfd_case_study_menu()
 		),
 		'type'=> MENU_CALLBACK,
 		'file'=> 'pdf/verify_certificates.inc'
-	);*/
+	);
 	return $items;
 }
 /**
