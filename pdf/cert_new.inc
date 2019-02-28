@@ -60,17 +60,17 @@ function generate_pdf()
 	//$pdf->Ln(26);
 	$pdf->SetFont('Times', 'I', 18);
 	$pdf->SetTextColor(0, 0, 0);
-	$pdf->Cell(320, 10, 'This is to certify that,', '0', '1', 'C');
+	$pdf->Cell(320, 10, 'This is to certify that', '0', '1', 'C');
 	$pdf->Ln(0);
 	$pdf->SetFont('Times', 'I', 18);
 	//$pdf->SetFont('Arial', 'BI', 25);
 	$pdf->SetTextColor(37, 22, 247);
-	$pdf->Cell(320, 10, $data3->contributor_name, '0', '1', 'C');
+	$pdf->Cell(320, 10, $data3->name_title . '. ' . $data3->contributor_name, '0', '1', 'C');
 	$pdf->Ln(0);
 	$pdf->SetFont('Times', 'I', 18);
 	if (strtolower($data3->branch) != "others") {
 		$title = WordWrap($data3->project_title,60);
-		$university = 'from ' . "\n" . $data3->university;
+		$university = 'from ' . $data3->university;
 		$pdf->SetTextColor(0, 0, 0);
 		//$pdf->Cell(240, 8, 'from ' . $data3->university . ' has successfully', '0', '1', 'C');
 		$pdf->MultiCell(320, 10, $university, '0','C');
@@ -82,7 +82,17 @@ function generate_pdf()
 		$pdf->MultiCell(320, 10, $title, '0', 'C');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->Ln(0);
-		//$txt= $pdf->WriteHTML("<span>under</span>");
+		$pdf->SetFont('Times','I',18);
+		$pdf->Cell(320, 8, 'using OpenFOAM.', '0', '1', 'C');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->Ln(4);
+		$pdf->Cell(320, 8, 'The work done is available at', '0', '1', 'C');
+		$pdf->Cell(320, 4, '', '0', '1', 'C');
+		$pdf->SetX(130);
+		$pdf->SetFont('Times', 'I', 'U');
+		$pdf->SetTextColor(37, 22, 247);
+		$pdf->write(0, 'https://cfd.fossee.in/case-study-project', 'https://cfd.fossee.in/case-study-project');
+		$pdf->Ln(0);
 		//$pdf->SetFont('Times', 'I', 16);
 		//$pdf->Cell(320, 8, 'under Case Study Project', '0', '1', 'C');
 		//$pdf->Ln(0);
@@ -153,8 +163,8 @@ function generate_pdf()
 	$pdf->SetX(320);
 	$pdf->Ln(25);
 	$sign = $path . "/pdf/images/sign.png";
-	$pdf->Image($sign, $pdf->GetX()+80, $pdf->GetY() + 50, 60, 0);
-	$pdf->Image($pngAbsoluteFilePath, $pdf->GetX() + 205 , $pdf->GetY() + 40, 30, 0);
+	$pdf->Image($sign, $pdf->GetX()+70, $pdf->GetY() + 40, 80, 0);
+	$pdf->Image($pngAbsoluteFilePath, $pdf->GetX() + 206 , $pdf->GetY() + 40, 25,25, 0);
 	//$pdf->Cell(240, 8, 'Prof. Kannan M. Moudgalya', 0, 1, 'R');
 	//$pdf->SetX(199);
 	//$pdf->SetFont('Arial', '', 10);
@@ -165,6 +175,7 @@ function generate_pdf()
 	$pdf->SetFont('Times', 'I', 15);
 	//$pdf->SetY(-58);
 	$pdf->Ln(32);
+	$pdf->SetTextColor(0, 0, 0);
 	$pdf->Cell(228, 8, $UniqueString, '0', '1', 'R');
 	//$pdf->SetX(29);
 	//$pdf->SetY(-50);
