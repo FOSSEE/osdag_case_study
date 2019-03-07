@@ -74,11 +74,20 @@ function cfd_case_study_proposal_all()
 		{
 			$actual_completion_date = date('d-m-Y', $proposal_data->actual_completion_date);
 		}
+		if ($proposal_data->approval_date == 0)
+		{
+			$approval_date = "Not Approved";
+		} //$proposal_data->actual_completion_date == 0
+		else
+		{
+			$approval_date = date('d-m-Y', $proposal_data->approval_date);
+		}
 		$proposal_rows[] = array(
 			date('d-m-Y', $proposal_data->creation_date),
 			l($proposal_data->contributor_name, 'user/' . $proposal_data->uid),
 			$proposal_data->project_title,
 			$actual_completion_date,
+			$approval_date,
 			$approval_status,
 			l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id)
 		);
@@ -93,7 +102,8 @@ function cfd_case_study_proposal_all()
 		'Date of Submission',
 		'Student Name',
 		'Title of the case-study project',
-		'Date of Completion',
+		'Date of Project Completion',
+		'Date of Approval',
 		'Status',
 		'Action'
 	);
