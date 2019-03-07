@@ -86,8 +86,8 @@ function cfd_case_study_proposal_all()
 			date('d-m-Y', $proposal_data->creation_date),
 			l($proposal_data->contributor_name, 'user/' . $proposal_data->uid),
 			$proposal_data->project_title,
-			$actual_completion_date,
 			$approval_date,
+			$actual_completion_date,
 			$approval_status,
 			l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id)
 		);
@@ -102,8 +102,8 @@ function cfd_case_study_proposal_all()
 		'Date of Submission',
 		'Student Name',
 		'Title of the case-study project',
-		'Date of Project Completion',
 		'Date of Approval',
+		'Date of Project Completion',
 		'Status',
 		'Action'
 	);
