@@ -58,7 +58,6 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 			'Dr' => 'Dr',
 			'Prof' => 'Prof',
 			'Mr' => 'Mr',
-			'Mrs' => 'Mrs',
 			'Ms' => 'Ms'
 		),
 		'#required' => TRUE
@@ -207,6 +206,13 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#description' => t('Maximum character limit is 250'),
 		'#required' => TRUE
 	);
+	$form['solver_used'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Solver to be used'),
+		'#size' => 50,
+		'#description' => t('Maximum character limit is 50'),
+		'#required' => TRUE
+	);
 	$form['abstract_file'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Submit an Abstract'),
@@ -216,7 +222,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	$form['abstract_file']['abstract_file_path'] = array(
 		'#type' => 'file',
 		'#size' => 48,
-		'#description' => t('Upload filenames with allowed extensions only. No spaces or any special characters allowed in filename.') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('resource_upload_extensions', '') . '</span>'
+		'#description' => t('<span style="color:red;">Upload filenames with allowed extensions only. No spaces or any special characters allowed in filename.</span>') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('resource_upload_extensions', '') . '</span>'
 	);
 	$form['date_of_proposal'] = array(
 		'#type' => 'date_popup',
@@ -324,6 +330,21 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 	{
 		form_set_error('project_title', t('Project title shoud not be empty'));
 	}
+	if ($form_state['values']['solver_used'] != '')
+	{
+		if (strlen($form_state['values']['solver_used']) > 50)
+		{
+			form_set_error('solver_used', t('Maximum charater limit is 50 charaters only, please check the length of the solver used'));
+		} //strlen($form_state['values']['project_title']) > 250
+		else if (strlen($form_state['values']['solver_used']) < 7)
+		{
+			form_set_error('project_title', t('Minimum charater limit is 7 charaters, please check the length of the solver used'));
+		} //strlen($form_state['values']['project_title']) < 10
+	} //$form_state['values']['project_title'] != ''
+	else
+	{
+		form_set_error('solver_used', t('Solver used cannot be empty'));
+	}
 	if(strtotime(date($form_state['values']['expected_date_of_completion'])) < time())
 	{
 		form_set_error('expected_date_of_completion', t('Completion date should not be earlier than proposal date'));
@@ -385,6 +406,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     state, 
     country,
     project_title, 
+    solver_used,
     directory_name,
     approval_status,
     is_completed, 
@@ -406,6 +428,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     :state,  
     :country,
     :project_title, 
+    :solver_used,
     :directory_name,
     :approval_status,
     :is_completed, 
@@ -427,6 +450,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		":state" => $v['all_state'],
 		":country" => $v['country'],
 		":project_title" => $v['project_title'],
+		":solver_used" => $v['solver_used'],
 		":directory_name" => $directory_name,
 		":approval_status" => 0,
 		":is_completed" => 0,

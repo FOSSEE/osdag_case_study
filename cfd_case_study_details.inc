@@ -34,6 +34,7 @@ function cfd_case_study_completed_proposals_all()
 			$preference_rows[] = array(
 				$i,
 				l($row->project_title, "case-study-project/case-study-run/" . $row->id),
+				$row->solver_used,
 				l('Download', "case-study-project/download/project-file/" . $row->id),
 				$row->contributor_name,
 				$row->university,
@@ -44,6 +45,7 @@ function cfd_case_study_completed_proposals_all()
 		$preference_header = array(
 			'No',
 			'Case Study Project',
+			'Solver used',
 			'Abstract File',
 			'Contributor Name',
 			'Institute',
