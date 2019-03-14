@@ -195,6 +195,11 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
 		'#markup' => $proposal_data->project_title,
 		'#title' => t('Title of the Case Study Project')
 	);
+	$form['solver_used'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->solver_used,
+		'#title' => t('Solver used')
+	);
 	$form['date_of_proposal'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Date of Proposal'),
@@ -437,6 +442,11 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
 		'#markup' => $proposal_data->project_title,
 		'#title' => t('Title of the Case Study Project')
 	);
+	$form['solver_used'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->solver_used,
+		'#title' => t('Solver used')
+	);
 	/************************** reference link filter *******************/
 	$url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
 	$reference = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $proposal_data->reference);
@@ -614,7 +624,6 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 			'Dr' => 'Dr',
 			'Prof' => 'Prof',
 			'Mr' => 'Mr',
-			'Mrs' => 'Mrs',
 			'Ms' => 'Ms'
 		),
 		'#required' => TRUE,
@@ -754,6 +763,14 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 		'#required' => TRUE,
 		'#default_value' => $proposal_data->project_title
 	);
+	$form['solver_used'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Solver to be used'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#required' => TRUE,
+		'#default_value' => $proposal_data->solver_used
+	);
 	$form['date_of_proposal'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Date of Proposal'),
@@ -838,6 +855,7 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 	/* update proposal */
 	$v = $form_state['values'];
 	$project_title = $v['project_title'];
+	$solver_used = $v['solver_used'];
 	$proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
 	$university = $v['university'];
 	$directory_names = _df_dir_name($project_title, $proposar_name);
@@ -857,6 +875,7 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 				pincode=:pincode,
 				state=:state,
 				project_title=:project_title,
+				solver_used=:solver_used,
 				directory_name=:directory_name
 				WHERE id=:proposal_id";
 	$args = array(
@@ -867,6 +886,7 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 		':pincode' => $v['pincode'],
 		':state' => $v['all_state'],
 		':project_title' => $project_title,
+		":solver_used" => $solver_used,
 		':directory_name' => $directory_name,
 		':proposal_id' => $proposal_id
 	);
