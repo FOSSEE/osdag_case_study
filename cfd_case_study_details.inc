@@ -30,15 +30,18 @@ function cfd_case_study_completed_proposals_all()
 			$query1->condition('proposal_id', $proposal_id);
 			$case_study_files = $query1->execute();
 			$case_study_abstract = $case_study_files->fetchObject();
-			$approval_date = date("Y", $row->approval_date);
+			$project_title = WordWrap(l($row->project_title, "case-study-project/case-study-run/" . $row->id),10,"\n",true);
+			$year = date("Y", $row->actual_completion_date);
+			$solver_used = WordWrap($row->solver_used,10,"\n",true);
 			$preference_rows[] = array(
 				$i,
-				l($row->project_title, "case-study-project/case-study-run/" . $row->id),
-				$row->solver_used,
+				$project_title,
+				$solver_used,
 				l('Download', "case-study-project/download/project-file/" . $row->id),
 				$row->contributor_name,
 				$row->university,
-				$approval_date
+				$row->institute,
+				$year
 			);
 			$i++;
 		} //$row = $result->fetchObject()
@@ -48,6 +51,7 @@ function cfd_case_study_completed_proposals_all()
 			'Solver used',
 			'Abstract File',
 			'Contributor Name',
+			'University',
 			'Institute',
 			'Year'
 		);
