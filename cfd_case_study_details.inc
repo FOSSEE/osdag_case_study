@@ -30,7 +30,7 @@ function cfd_case_study_completed_proposals_all()
 			$query1->condition('proposal_id', $proposal_id);
 			$case_study_files = $query1->execute();
 			$case_study_abstract = $case_study_files->fetchObject();
-			$project_title = WordWrap(l($row->project_title, "case-study-project/case-study-run/" . $row->id),10,"\n",true);
+			$project_title = l($row->project_title, "case-study-project/case-study-run/" . $row->id);
 			$year = date("Y", $row->actual_completion_date);
 			$solver_used = WordWrap($row->solver_used,10,"\n",true);
 			$preference_rows[] = array(
@@ -40,7 +40,6 @@ function cfd_case_study_completed_proposals_all()
 				l('Download', "case-study-project/download/project-file/" . $row->id),
 				$row->contributor_name,
 				$row->university,
-				$row->institute,
 				$year
 			);
 			$i++;
@@ -51,8 +50,8 @@ function cfd_case_study_completed_proposals_all()
 			'Solver used',
 			'Abstract File',
 			'Contributor Name',
-			'University',
-			'Institute',
+			'Institute/ University',
+			//'Institute',
 			'Year'
 		);
 		$output .= theme('table', array(
@@ -96,7 +95,7 @@ function cfd_case_study_progress_all()
 			'No',
 			'Case Study Project',
 			'Contributor Name',
-			'Institute',
+			'Institute/ University',
 			'Year'
 		);
 		$page_content .= theme('table', array(
