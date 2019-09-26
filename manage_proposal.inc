@@ -382,6 +382,11 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
 	$query->fields('case_study_proposal');
 	$query->condition('id', $proposal_id);
 	$proposal_q = $query->execute();
+	$query_abstract = db_select('case_study_submitted_abstracts_file');
+	$query_abstract->fields('case_study_submitted_abstracts_file');
+	$query_abstract->condition('proposal_id', $proposal_id);
+	$query_abstract->condition('filetype', 'A');
+	$query_abstract_pdf = $query_abstract->execute()->fetchObject();
 	if ($proposal_q)
 	{
 		if ($proposal_data = $proposal_q->fetchObject())
@@ -456,6 +461,25 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
 		'#markup' => $reference,
 		'#title' => t('References')
 	);*/
+	if (($query_abstract_pdf->filename != "") && ($query_abstract_pdf->filename != 'NULL'))
+	{
+		$str = substr($query_abstract_pdf->filename,strrpos($query_abstract_pdf->filename, '/'));
+		$resource_file =ltrim($str, '/');
+		
+		$form['abstract_file_path'] = array(
+			'#type' => 'item',
+			'#title' => t('Abstract file '),
+			'#markup' => l($resource_file, 'case-study-project/download/project-file/' . $proposal_id) . ""
+		);
+	} //$proposal_data->user_defined_compound_filepath != ""
+	else
+	{
+		$form['abstract_file_path'] = array(
+			'#type' => 'item',
+			'#title' => t('Abstract file '),
+			'#markup' => "Not uploaded<br><br>"
+		);
+	}
 	$proposal_status = '';
 	switch ($proposal_data->approval_status)
 	{
