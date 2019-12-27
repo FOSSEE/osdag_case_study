@@ -1,5 +1,5 @@
 <?php
-// eSim case study display completed proposals
+// case study display completed proposals
 function cfd_case_study_completed_proposals_all()
 {
 	$output = "";

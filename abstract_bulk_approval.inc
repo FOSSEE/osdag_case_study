@@ -254,19 +254,18 @@ FOSSEE,IIT Bombay', array(
 					));
 					$email_body = array(
 						0 => t('
+Dear !user_name,
 
-					Dear !user_name,
+Your uploaded case study project files for the case study project Title : ' . $user_info->project_title . ' have been marked as dis-approved.
 
-					Your uploaded case study project files for the case study project Title : ' . $user_info->project_title . ' have been marked as dis-approved.
+Reason for dis-approval: ' . $form_state['values']['message'] . '
 
-					Reason for dis-approval: ' . $form_state['values']['message'] . '
+Best Wishes,
 
-					Best Wishes,
-
-					!site_name Team,
-					FOSSEE,IIT Bombay', array(
-												'!site_name' => variable_get('site_name', ''),
-												'!user_name' => $user_data->name
+!site_name Team,
+FOSSEE,IIT Bombay', array(
+						'!site_name' => variable_get('site_name', ''),
+						'!user_name' => $user_data->name
 											))
 					);
 					$email_to = $user_data->mail;

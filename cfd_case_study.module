@@ -1,5 +1,8 @@
 <?php
 // $Id$
+/*error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);*/
 require_once('general_deletion.inc');
 require_once('email.inc');
 /**
@@ -9,6 +12,19 @@ function cfd_case_study_menu()
 {
 	$items = array();
 	/* PROPOSAL */
+	$items['case-study-project/add-project-title'] = array(
+		'title'=> 'Add new project titles',
+		'description'=> 'Add new project titles',
+		'page callback'=> 'drupal_get_form',
+		'page arguments'=> array(
+			'add_project_title_form'
+		),
+		'access arguments'=> array(
+			'Case Study add project titles'
+		),
+		'type'=> MENU_NORMAL_ITEM,
+		'file'=> 'add_project_titles.inc'
+	);
 	$items['case-study-project/proposal'] = array(
 		'title'=> 'Case Study Proposal Form',
 		'description'=> 'Case Study Proposal Form',
@@ -175,6 +191,14 @@ function cfd_case_study_menu()
 		),
 		'file'=> 'cfd_case_study_details.inc'
 	);
+	$items['case-study-project/list-of-project-titles'] = array(
+		'title'=> 'List of available Project titles',
+		'page callback'=> 'list_of_available_project_titles',
+		'access arguments'=> array(
+			'Case Study Project titles list'
+		),
+		'file'=> 'available_project_titles_list.inc'
+	);
 	/* DOWNLOAD FOR EVERYONE */
 	$items['case-study-project/case-study-run'] = array(
 		'title'=> 'Download Codes',
@@ -287,6 +311,10 @@ function cfd_case_study_menu()
 function cfd_case_study_permission()
 {
 	return array(
+		'Case Study add project titles'=> array(
+			'title'=> t('Case Study add project titles'),
+			'restrict access'=> TRUE
+		),
 		'Case Study create proposal'=> array(
 			'title'=> t('Case Study create proposal'),
 			'restrict access'=> TRUE
@@ -305,6 +333,10 @@ function cfd_case_study_permission()
 		),
 		'Case Study propose solution'=> array(
 			'title'=> t('Case Study propose solution'),
+			'restrict access'=> TRUE
+		),
+		'Case Study Project titles list'=> array(
+			'title'=> t('Case Study Project titles list'),
 			'restrict access'=> TRUE
 		),
 		'Case Study approve abstract'=> array(
@@ -384,6 +416,9 @@ function cfd_case_study_path()
 function cfd_case_study_file_path($value='')
 {
 	return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/';
+}
+function cfd_case_study_project_titles_resource_file_path() {
+	return $_SERVER['DOCUMENT_ROOT'] . '/SiteFiles/cfd/project-titles/';
 }
 /************************* USER VERIFICATION FUNCTIONS ************************/
 function cfd_case_study_get_proposal()
@@ -511,6 +546,18 @@ function _df_list_of_departments()
 	} //$department_list_data = $department_list->fetchObject()
 	return $department;
 }
+
+function _cs_list_of_case_studies()
+{
+	$existing_case_studies = array();
+	$result = db_query("SELECT * from list_of_project_titles WHERE {project_title_name} NOT IN( SELECT  project_title from case_study_proposal WHERE approval_status = 0 OR approval_status = 1 OR approval_status = 3)");
+	while ($case_study_list_data = $result->fetchObject())
+	{
+		$existing_case_studies[$case_study_list_data->project_title_name] = $case_study_list_data->project_title_name;
+	}
+	return $existing_case_studies;
+}
+
 function _df_dir_name($project, $proposar_name)
 {
 	$project_title = ucname($project);
