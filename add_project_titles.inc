@@ -85,6 +85,7 @@ function add_project_title_form_submit($form, &$form_state) {
 		'return' => Database::RETURN_INSERT_ID
 	));
 	$dest_path = cfd_case_study_project_titles_resource_file_path();
+	//var_dump($dest_path);die;
 	foreach ($_FILES['files']['name'] as $file_form_name => $file_name)
 	{
 		if ($file_name)
@@ -112,7 +113,7 @@ function add_project_title_form_submit($form, &$form_state) {
 			} //move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name])
 			else
 			{
-				drupal_set_message('Error uploading file : ' . $dest_path . '/' . $file_name, 'error');
+				drupal_set_message('Error uploading file: ' . $dest_path . $result1 . '_' . $file_name, 'error');
 			}
 		} //$file_name
 	} //$_FILES['files']['name'] as $file_form_name => $file_name

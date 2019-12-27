@@ -222,6 +222,16 @@ function cfd_case_study_menu()
 		'type'=> MENU_CALLBACK,
 		'file'=> 'download.inc'
 	);
+	$items['case-study-project/download/project-title-file'] = array(
+		'title'=> 'Download Project Title file',
+		'description'=> 'Download Project Title file',
+		'page callback'=> 'download_case_study_project_title_files',
+		'access arguments'=> array(
+			'download code'
+		),
+		'type'=> MENU_CALLBACK,
+		'file'=> 'available_project_titles_list.inc'
+	);
 	$items['case-study-project/download/project-file'] = array(
 		'title'=> 'Download Project file',
 		'description'=> 'Download project file',
@@ -418,7 +428,7 @@ function cfd_case_study_file_path($value='')
 	return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/';
 }
 function cfd_case_study_project_titles_resource_file_path() {
-	return $_SERVER['DOCUMENT_ROOT'] . '/SiteFiles/cfd/project-titles/';
+	return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/case_project_titles_resource_files/';
 }
 /************************* USER VERIFICATION FUNCTIONS ************************/
 function cfd_case_study_get_proposal()
