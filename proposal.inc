@@ -199,13 +199,51 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#type' => 'item',
 		'#markup' => '<hr>'
 	);
+	$form['cfd_project_title_check'] = array(
+            '#type' => 'radios',
+            '#title' => t('Is the proposed CFD Case study from the list of available CFD Case studies?'),
+            '#options' => array(
+			'1' => 'Yes',
+			'0' => 'No',
+			),
+            '#validated' => TRUE,
+	);
+	$form['cfd_case_study_name_dropdown'] = array(
+            '#type' => 'select',
+            '#title' => t('Select the name of available cfd'),
+            '#required' => TRUE,
+            '#options' => _cs_list_of_case_studies(),
+           	'#validated' => TRUE,
+            '#states' => array(
+                'visible' => array(
+                    ':input[name="cfd_project_title_check"]' => array(
+                        'value' => '1'
+                    )
+                )
+            ),
+	);
 	$form['project_title'] = array(
+		'#type' => 'textarea',
+		'#title' => t('Project Title'),
+		'#size' => 250,
+		'#description' => t('Maximum character limit is 250'),
+		'#required' => TRUE,
+		'#validated' => TRUE,
+		'#states' => array(
+                'visible' => array(
+                    ':input[name="cfd_project_title_check"]' => array(
+                        'value' => '0'
+                    )
+                )
+            ),
+	);
+	/*$form['project_title'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Project Title'),
 		'#size' => 250,
 		'#description' => t('Maximum character limit is 250'),
 		'#required' => TRUE
-	);
+	);*/
 	$form['solver_used'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Solver to be used'),
@@ -260,6 +298,14 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 }
 function cfd_case_study_proposal_form_validate($form, &$form_state)
 {
+	if($form_state['values']['cfd_project_title_check'] == 1)
+	{
+		$project_title = $form_state['values']['cfd_case_study_name_dropdown'];
+	}
+	else{
+
+		$project_title = $form_state['values']['project_title'];
+	}
 	if ($form_state['values']['term_condition'] == '1')
 	{
 		form_set_error('term_condition', t('Please check the terms and conditions'));
@@ -326,10 +372,10 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 			form_set_error('project_title', t('Minimum charater limit is 10 charaters, please check the length of the project title'));
 		} //strlen($form_state['values']['project_title']) < 10
 	} //$form_state['values']['project_title'] != ''
-	else
+	/*else
 	{
 		form_set_error('project_title', t('Project title shoud not be empty'));
-	}
+	}*/
 	if ($form_state['values']['solver_used'] != '')
 	{
 		if (strlen($form_state['values']['solver_used']) > 50)
@@ -386,9 +432,17 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		drupal_set_message('It is mandatory to login on this website to access the proposal form', 'error');
 		return;
 	}
+	if($form_state['values']['cfd_project_title_check'] == 1)
+	{
+		$project_title = $form_state['values']['cfd_case_study_name_dropdown'];
+	}
+	else{
+
+		$project_title = $form_state['values']['project_title'];
+	}
 	/* inserting the user proposal */
 	$v = $form_state["values"];
-	$project_title = trim($v['project_title']);
+	$project_title = trim($project_title);
 	$proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
 	$university = $v['university'];
 	$directory_name = _df_dir_name($project_title, $proposar_name);
@@ -449,7 +503,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		":pincode" => $v['pincode'],
 		":state" => $v['all_state'],
 		":country" => $v['country'],
-		":project_title" => $v['project_title'],
+		":project_title" => $project_title,
 		":solver_used" => $v['solver_used'],
 		":directory_name" => $directory_name,
 		":approval_status" => 0,

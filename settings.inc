@@ -56,6 +56,15 @@ function cfd_case_study_settings_form($form, $form_state)
 		'#required' => TRUE,
 		'#default_value' => variable_get('case_study_project_files_extensions', '')
 	);
+	$form['extensions']['list_of_available_projects_file'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Allowed file extensions for file uploaded for available projects list'),
+		'#description' => t('A comma separated list WITHOUT SPACE of file extensions that are permitted to be uploaded on the server'),
+		'#size' => 50,
+		'#maxlength' => 255,
+		'#required' => TRUE,
+		'#default_value' => variable_get('list_of_available_projects_file', '')
+	);
 	$form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Submit')
@@ -74,5 +83,6 @@ function cfd_case_study_settings_form_submit($form, &$form_state)
 	variable_set('resource_upload_extensions', $form_state['values']['resource_upload']);
 	variable_set('case_study_abstract_upload_extensions', $form_state['values']['abstract_upload']);
 	variable_set('case_study_project_files_extensions', $form_state['values']['case_study_upload']);
+	variable_set('list_of_available_projects_file', $form_state['values']['list_of_available_projects_file']);
 	drupal_set_message(t('Settings updated'), 'status');
 }
