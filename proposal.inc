@@ -108,6 +108,50 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 			'placeholder' => 'Insert full name of your institute.... '
 		)
 	);
+	$form['how_did_you_know_about_project'] = array(
+		'#type' => 'select',
+		'#title' => t('How did you come to know about the Case Study Project?'),
+		'#options' =>  array(
+			'Poster' => 'Poster',
+			'Website' => 'Website',
+			'Email' => 'Email',
+			'Others' => 'Others'
+		),
+		'#required' => TRUE
+	);
+	$form['others_how_did_you_know_about_project'] = array(
+		'#type' => 'textfield',
+		'#title' => t('If ‘Other’, please specify'),
+		'#maxlength' => 50,
+		'#states' => array(
+			'visible' => array(
+				':input[name="how_did_you_know_about_project"]' => array(
+					'value' => 'Others'
+				)
+			)
+		)		
+	);
+	$form['faculty_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Name of the Faculty'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#validated' => TRUE
+	);
+	$form['faculty_department'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Department of the Faculty'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#validated' => TRUE
+	);
+	$form['faculty_email'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Email id of the Faculty'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#validated' => TRUE
+	);
 	$form['country'] = array(
 		'#type' => 'select',
 		'#title' => t('Country'),
@@ -395,6 +439,19 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 	{
 		form_set_error('expected_date_of_completion', t('Completion date should not be earlier than proposal date'));
 	}
+
+	if ($form_state['values']['how_did_you_know_about_project'] == 'Others')
+	{
+		if ($form_state['values']['others_how_did_you_know_about_project'] == '')
+		{
+			form_set_error('others_how_did_you_know_about_project', t('Please enter how did you know about the project'));
+			// $form_state['values']['country'] = $form_state['values']['other_country'];
+		} //$form_state['values']['other_country'] == ''
+		else
+		{
+			$form_state['values']['how_did_you_know_about_project'] = $form_state['values']['others_how_did_you_know_about_project'];
+		}
+	}
 	
 if (isset($_FILES['files']))
 	{
@@ -440,6 +497,13 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 
 		$project_title = $form_state['values']['project_title'];
 	}
+	if ($form_state['values']['how_did_you_know_about_project'] == 'Others')
+	{
+			$how_did_you_know_about_project = $form_state['values']['others_how_did_you_know_about_project'];
+	}
+	else {
+		$how_did_you_know_about_project = $form_state['values']['how_did_you_know_about_project'];
+	}
 	/* inserting the user proposal */
 	$v = $form_state["values"];
 	$project_title = trim($project_title);
@@ -455,6 +519,10 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     contact_no,
     university,
     institute,
+    how_did_you_know_about_project,
+    faculty_name,
+    faculty_department,
+    faculty_email,
     city, 
     pincode, 
     state, 
@@ -477,6 +545,10 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     :contact_no,
     :university, 
     :institute,
+    :how_did_you_know_about_project,
+    :faculty_name,
+    :faculty_department,
+    :faculty_email,
     :city, 
     :pincode, 
     :state,  
@@ -499,6 +571,10 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		":contact_no" => $v['contributor_contact_no'],
 		":university" => $v['university'],
 		":institute" => _df_sentence_case($v['institute']),
+		":how_did_you_know_about_project" => trim($how_did_you_know_about_project),
+		":faculty_name" => $v['faculty_name'],
+		":faculty_department" => $v['faculty_department'],
+		":faculty_email" => $v['faculty_email'],
 		":city" => $v['city'],
 		":pincode" => $v['pincode'],
 		":state" => $v['all_state'],
