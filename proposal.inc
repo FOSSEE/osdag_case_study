@@ -123,6 +123,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#type' => 'textfield',
 		'#title' => t('If ‘Other’, please specify'),
 		'#maxlength' => 50,
+		'#description' => t('<span style="color:red">Maximum character limit is 50</span>'),
 		'#states' => array(
 			'visible' => array(
 				':input[name="how_did_you_know_about_project"]' => array(
@@ -136,21 +137,24 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#title' => t('Name of the Faculty'),
 		'#size' => 50,
 		'#maxlength' => 50,
-		'#validated' => TRUE
+		'#validated' => TRUE,
+		'#description' => t('<span style="color:red">Maximum character limit is 50</span>')
 	);
 	$form['faculty_department'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Department of the Faculty'),
 		'#size' => 50,
 		'#maxlength' => 50,
-		'#validated' => TRUE
+		'#validated' => TRUE,
+		'#description' => t('<span style="color:red">Maximum character limit is 50</span>')
 	);
 	$form['faculty_email'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Email id of the Faculty'),
-		'#size' => 50,
-		'#maxlength' => 50,
-		'#validated' => TRUE
+		'#size' => 255,
+		'#maxlength' => 255,
+		'#validated' => TRUE,
+		'#description' => t('<span style="color:red">Maximum character limit is 255</span>')
 	);
 	$form['country'] = array(
 		'#type' => 'select',
@@ -450,6 +454,15 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 		else
 		{
 			$form_state['values']['how_did_you_know_about_project'] = $form_state['values']['others_how_did_you_know_about_project'];
+		}
+	}
+	if ($form_state['values']['faculty_name'] != '' || $form_state['values']['faculty_name'] != "NULL") {
+		if($form_state['values']['faculty_email'] == '' || $form_state['values']['faculty_email'] == "NULL")
+		{
+			form_set_error('faculty_email', t('Please enter the email id of your faculty'));
+		}
+		if($form_state['values']['faculty_department'] == '' || $form_state['values']['faculty_department'] == 'NULL'){
+			form_set_error('faculty_department', t('Please enter the Department of your faculty'));
 		}
 	}
 	

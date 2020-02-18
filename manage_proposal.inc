@@ -783,8 +783,8 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 	$form['faculty_email'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Email id of the Faculty'),
-		'#size' => 50,
-		'#maxlength' => 50,
+		'#size' => 255,
+		'#maxlength' => 255,
 		'#validated' => TRUE,
 		'#default_value' => $proposal_data->faculty_email
 	);
