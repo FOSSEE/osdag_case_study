@@ -134,7 +134,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	);
 	$form['faculty_name'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Name of the Faculty'),
+		'#title' => t('Name of the Faculty Member of your Institution, if any, who helped you with this Case Study Project'),
 		'#size' => 50,
 		'#maxlength' => 50,
 		'#validated' => TRUE,
@@ -142,7 +142,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	);
 	$form['faculty_department'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Department of the Faculty'),
+		'#title' => t('Department of the Faculty Member of your Institution, if any, who helped you with this Case Study Project'),
 		'#size' => 50,
 		'#maxlength' => 50,
 		'#validated' => TRUE,
@@ -150,7 +150,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	);
 	$form['faculty_email'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Email id of the Faculty'),
+		'#title' => t('Email id of the Faculty Member of your Institution, if any, who helped you with this Case Study Project'),
 		'#size' => 255,
 		'#maxlength' => 255,
 		'#validated' => TRUE,
