@@ -149,6 +149,24 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
 		drupal_goto('case-study-project/manage-proposal');
 		return;
 	}
+	if($proposal_data->faculty_name == ''){
+		$faculty_name = 'NA';
+	}
+	else{
+		$faculty_name = $proposal_data->faculty_name;
+	}
+	if($proposal_data->faculty_department == ''){
+		$faculty_department = 'NA';
+	}
+	else{
+		$faculty_department = $proposal_data->faculty_department;
+	}
+	if($proposal_data->faculty_email == ''){
+		$faculty_email = 'NA';
+	}
+	else{
+		$faculty_email = $proposal_data->faculty_email;
+	}
 	$form['contributor_name'] = array(
 		'#type' => 'item',
 		'#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),
@@ -169,6 +187,26 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
 		'#type' => 'item',
 		'#markup' => $proposal_data->university,
 		'#title' => t('University/Institute')
+	);
+	$form['how_did_you_know_about_project'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->how_did_you_know_about_project,
+		'#title' => t('How did you know about the project')
+	);
+	$form['faculty_name'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_name,
+		'#title' => t('Name of the faculty')
+	);
+	$form['faculty_department'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_department,
+		'#title' => t('Department of the faculty')
+	);
+	$form['faculty_email'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_email,
+		'#title' => t('Email of the faculty')
 	);
 	$form['country'] = array(
 		'#type' => 'item',
@@ -406,6 +444,24 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
 		drupal_goto('case-study-project/manage-proposal');
 		return;
 	}
+	if($proposal_data->faculty_name == ''){
+		$faculty_name = 'NA';
+	}
+	else{
+		$faculty_name = $proposal_data->faculty_name;
+	}
+	if($proposal_data->faculty_department == ''){
+		$faculty_department = 'NA';
+	}
+	else{
+		$faculty_department = $proposal_data->faculty_department;
+	}
+	if($proposal_data->faculty_email == ''){
+		$faculty_email = 'NA';
+	}
+	else{
+		$faculty_email = $proposal_data->faculty_email;
+	}
 	$form['contributor_name'] = array(
 		'#type' => 'item',
 		'#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),
@@ -421,6 +477,26 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
 		'#type' => 'item',
 		'#markup' => $proposal_data->university,
 		'#title' => t('University/Institute')
+	);
+	$form['how_did_you_know_about_project'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->how_did_you_know_about_project,
+		'#title' => t('How did you know about the project')
+	);
+	$form['faculty_name'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_name,
+		'#title' => t('Name of the faculty')
+	);
+	$form['faculty_department'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_department,
+		'#title' => t('Department of the faculty')
+	);
+	$form['faculty_email'] = array(
+		'#type' => 'item',
+		'#markup' => $faculty_email,
+		'#title' => t('Email of the faculty')
 	);
 	$form['country'] = array(
 		'#type' => 'item',
@@ -682,6 +758,36 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
 		'#required' => TRUE,
 		'#default_value' => $proposal_data->institute
 	);
+	$form['how_did_you_know_about_project'] = array(
+		'#type' => 'textfield',
+		'#title' => t('How did you come to know about the Case Study Project?'),
+		'#default_value' => $proposal_data->how_did_you_know_about_project,
+		'#required' => TRUE
+	);
+	$form['faculty_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Name of the Faculty'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#validated' => TRUE,
+		'#default_value' => $proposal_data->faculty_name
+	);
+	$form['faculty_department'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Department of the Faculty'),
+		'#size' => 50,
+		'#maxlength' => 50,
+		'#validated' => TRUE,
+		'#default_value' => $proposal_data->faculty_department
+	);
+	$form['faculty_email'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Email id of the Faculty'),
+		'#size' => 255,
+		'#maxlength' => 255,
+		'#validated' => TRUE,
+		'#default_value' => $proposal_data->faculty_email
+	);
 	$form['country'] = array(
 		'#type' => 'select',
 		'#title' => t('Country'),
@@ -896,6 +1002,10 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 				contributor_name=:contributor_name,
 				university=:university,
 				institute=:institute,
+				how_did_you_know_about_project = :how_did_you_know_about_project,
+				faculty_name = :faculty_name,
+				faculty_department = :faculty_department,
+				faculty_email = :faculty_email,
 				city=:city,
 				pincode=:pincode,
 				state=:state,
@@ -908,6 +1018,10 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 		':contributor_name' => $v['contributor_name'],
 		':university' => $v['university'],
 		":institute" => $v['institute'],
+		":how_did_you_know_about_project" => $v['how_did_you_know_about_project'],
+		":faculty_name" => $v['faculty_name'],
+		":faculty_department" => $v['faculty_department'],
+		":faculty_email" => $v['faculty_email'],
 		':city' => $v['city'],
 		':pincode' => $v['pincode'],
 		':state' => $v['all_state'],
