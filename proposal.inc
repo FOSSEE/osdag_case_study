@@ -285,19 +285,54 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
                 )
             ),
 	);
-	/*$form['project_title'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Project Title'),
-		'#size' => 250,
-		'#description' => t('Maximum character limit is 250'),
-		'#required' => TRUE
-	);*/
+	$version_options = _cs_list_of_versions();
+	$form['version'] = array(
+		'#type' => 'select',
+		'#title' => t('Version used'),
+		'#options' => $version_options
+	);
+	$simulation_type_options = _cs_list_of_simulation_types();
+	$form['simulation_type'] = array(
+		'#type' => 'select',
+		'#title' => t('Simulation Type used'),
+		'#options' => $simulation_type_options,
+		'#ajax' => array(
+        	'callback' => 'ajax_solver_used_callback',
+        ),
+	);
+	$version_id = isset($form_state['values']['version']) ? $form_state['values']['version'] : key($version_options);
+	$simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : key($simulation_type_options);
+	
 	$form['solver_used'] = array(
+		'#type' => 'select',
+		'#title' => t('Solver used'),
+		'#options' => _cs_list_of_solvers($version_id, $simulation_id),
+		'#prefix' => '<div id="ajax-solver-replace">',
+		'#suffix' => '</div>',
+		/*'#states' => array(
+                'invisible' => array(
+                    ':input[name="simulation_type"]' => array(
+                        'value' => 13
+                    )
+                )
+            ),*/
+	);
+	
+	$form['solver_used_text'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Solver to be used'),
-		'#size' => 50,
+		'#size' => 100,
 		'#description' => t('Maximum character limit is 50'),
-		'#required' => TRUE
+		'#required' => TRUE,
+		'#prefix' => '<div id="ajax-solver-text-replace">',
+		'#suffix' => '</div>',
+		'#states' => array(
+                'visible' => array(
+                    ':input[name="simulation_type"]' => array(
+                        'value' => 13
+                    )
+                )
+            ),
 	);
 	$form['abstract_file'] = array(
 		'#type' => 'fieldset',
@@ -344,6 +379,25 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	);
 	return $form;
 }
+
+function ajax_solver_used_callback($form, $form_state){
+	$version_id = isset($form_state['values']['version']) ? $form_state['values']['version'] : key($version_options);
+	$simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : key($simulation_type_options);
+	if($simulation_id < 13){
+		$form['solver_used']['#options'] = _cs_list_of_solvers($version_id, $simulation_id);
+		$commands[] = ajax_command_replace('#ajax-solver-replace', drupal_render($form['solver_used']));
+		$commands[] = ajax_command_html('#ajax-solver-text-replace', '');
+	}
+	else{
+		$commands[] = ajax_command_html('#ajax-solver-replace', '');
+		$commands[] = ajax_command_replace('#ajax-solver-text-replace', drupal_render($form['solver_used_text']));
+	}
+	return array(
+        '#type' => 'ajax',
+        '#commands' => $commands
+    );
+}
+
 function cfd_case_study_proposal_form_validate($form, &$form_state)
 {
 	if($form_state['values']['cfd_project_title_check'] == 1)
@@ -424,20 +478,20 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 	{
 		form_set_error('project_title', t('Project title shoud not be empty'));
 	}*/
-	if ($form_state['values']['solver_used'] != '')
+	if ($form_state['values']['solver_used_text'] != '')
 	{
-		if (strlen($form_state['values']['solver_used']) > 50)
+		if (strlen($form_state['values']['solver_used_text']) > 100)
 		{
-			form_set_error('solver_used', t('Maximum charater limit is 50 charaters only, please check the length of the solver used'));
+			form_set_error('solver_used_text', t('Maximum charater limit is 100 charaters only, please check the length of the solver used'));
 		} //strlen($form_state['values']['project_title']) > 250
-		else if (strlen($form_state['values']['solver_used']) < 7)
+		else if (strlen($form_state['values']['solver_used_text']) < 7)
 		{
-			form_set_error('project_title', t('Minimum charater limit is 7 charaters, please check the length of the solver used'));
+			form_set_error('solver_used_text', t('Minimum charater limit is 7 charaters, please check the length of the solver used'));
 		} //strlen($form_state['values']['project_title']) < 10
 	} //$form_state['values']['project_title'] != ''
 	else
 	{
-		form_set_error('solver_used', t('Solver used cannot be empty'));
+		form_set_error('solver_used_text', t('Solver used cannot be empty'));
 	}
 	if(strtotime(date($form_state['values']['expected_date_of_completion'])) < time())
 	{
@@ -523,6 +577,13 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 	$proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
 	$university = $v['university'];
 	$directory_name = _df_dir_name($project_title, $proposar_name);
+	$simulation_id = $v['simulation_type'];
+	if($simulation_id < 13){
+		$solver = $v['solver_used'];
+	}
+	else{
+		$solver = $v['solver_used_text'];
+	}
 	$result = "INSERT INTO {case_study_proposal} 
     (
     uid, 
@@ -541,6 +602,8 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     state, 
     country,
     project_title, 
+    version_id,
+    simulation_type_id,
     solver_used,
     directory_name,
     approval_status,
@@ -567,6 +630,8 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
     :state,  
     :country,
     :project_title, 
+    :version_id,
+    :simulation_type_id,
     :solver_used,
     :directory_name,
     :approval_status,
@@ -593,7 +658,9 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		":state" => $v['all_state'],
 		":country" => $v['country'],
 		":project_title" => $project_title,
-		":solver_used" => $v['solver_used'],
+		":version_id" => $v['version'],
+		":simulation_type_id" => $simulation_id,
+		":solver_used" => $solver,
 		":directory_name" => $directory_name,
 		":approval_status" => 0,
 		":is_completed" => 0,

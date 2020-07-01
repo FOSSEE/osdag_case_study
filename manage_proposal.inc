@@ -227,6 +227,16 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
     } else {
         $faculty_email = $proposal_data->faculty_email;
     }
+    $query = db_select('case_study_software_version');
+    $query->fields('case_study_software_version');
+    $query->condition('id', $proposal_data->version_id);
+    $version_data = $query->execute()->fetchObject();
+    $version = $version_data->case_study_version;
+    $query = db_select('case_study_simulation_type');
+    $query->fields('case_study_simulation_type');
+    $query->condition('id', $proposal_data->simulation_type_id);
+    $simulation_type_data = $query->execute()->fetchObject();
+    $simulation_type = $simulation_type_data->simulation_type;
     $form['contributor_name'] = array(
         '#type' => 'item',
         '#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),
@@ -293,11 +303,22 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
         '#markup' => $proposal_data->project_title,
         '#title' => t('Title of the Case Study Project'),
     );
+    $form['version'] = array(
+        '#type' => 'item',
+        '#markup' => $version,
+        '#title' => t('Version used'),
+    );
+    $form['simulation_type'] = array(
+        '#type' => 'item',
+        '#markup' => $simulation_type,
+        '#title' => t('Simulation Type'),
+    );
     $form['solver_used'] = array(
         '#type' => 'item',
         '#markup' => $proposal_data->solver_used,
         '#title' => t('Solver used'),
     );
+    
     $form['date_of_proposal'] = array(
         '#type' => 'textfield',
         '#title' => t('Date of Proposal'),
@@ -509,6 +530,26 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
     } else {
         $faculty_email = $proposal_data->faculty_email;
     }
+    $query = db_select('case_study_software_version');
+    $query->fields('case_study_software_version');
+    $query->condition('id', $proposal_data->version_id);
+    $version_data = $query->execute()->fetchObject();
+    if(!$version_data){
+        $version = 'NA';
+    }
+    else{
+    $version = $version_data->case_study_version;
+    }
+    $query = db_select('case_study_simulation_type');
+    $query->fields('case_study_simulation_type');
+    $query->condition('id', $proposal_data->simulation_type_id);
+    $simulation_type_data = $query->execute()->fetchObject();
+    if(!$simulation_type_data){
+        $simulation_type = 'NA';
+    }
+    else{
+    $simulation_type = $simulation_type_data->simulation_type;
+    }
     $form['contributor_name'] = array(
         '#type' => 'item',
         '#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),
@@ -569,6 +610,16 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
         '#type' => 'item',
         '#markup' => $proposal_data->project_title,
         '#title' => t('Title of the Case Study Project'),
+    );
+    $form['version'] = array(
+        '#type' => 'item',
+        '#markup' => $version,
+        '#title' => t('Version used'),
+    );
+    $form['simulation_type'] = array(
+        '#type' => 'item',
+        '#markup' => $simulation_type,
+        '#title' => t('Simulation Type'),
     );
     $form['solver_used'] = array(
         '#type' => 'item',
@@ -734,9 +785,10 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
     $query->fields('case_study_proposal');
     $query->condition('id', $proposal_id);
     $proposal_q = $query->execute();
-    if ($proposal_q) {
+    $proposal_data = $proposal_q->fetchObject();
+    /*if ($proposal_q) {
         if ($proposal_data = $proposal_q->fetchObject()) {
-            /* everything ok */
+            /* everything ok 
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
@@ -748,7 +800,7 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
         drupal_goto('case-study-project/manage-proposal');
         return;
-    }
+    }*/
     $user_data = user_load($proposal_data->uid);
     $form['name_title'] = array(
         '#type' => 'select',
@@ -926,14 +978,70 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
         '#required' => true,
         '#default_value' => $proposal_data->project_title,
     );
+    $version_options = _cs_list_of_versions();
+    $form['version'] = array(
+        '#type' => 'select',
+        '#title' => t('Version used'),
+        '#options' => $version_options,
+        '#default_value' => $proposal_data->version_id
+    );
+    $simulation_type_options = _cs_list_of_simulation_types();
+    $form['simulation_type'] = array(
+        '#type' => 'select',
+        '#title' => t('Simulation Type used'),
+        '#options' => $simulation_type_options,
+        '#default_value' => $proposal_data->simulation_type_id,
+        '#ajax' => array(
+            'callback' => 'ajax_solver_used_callback',
+        ),
+    );
+    $version_id = isset($form_state['values']['version']) ? $form_state['values']['version'] : $proposal_data->version_id;
+    $simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : $proposal_data->simulation_type_id;
+    //var_dump($proposal_data->solver_used);die;
+    if($proposal_data->simulation_type_id == 13){
+        $form['solver_used_text'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Solver to be used'),
+        '#size' => 100,
+        '#description' => t('Maximum character limit is 50'),
+        '#required' => TRUE,
+        '#prefix' => '<div id="ajax-solver-text-replace">',
+        '#suffix' => '</div>',
+        '#states' => array(
+                'visible' => array(
+                    ':input[name="simulation_type"]' => array(
+                        'value' => 13
+                    )
+                )
+            ),
+        '#default_value' => $proposal_data->solver_used,
+    );
+   }
+   else{
     $form['solver_used'] = array(
+        '#type' => 'select',
+        '#title' => t('Solver used'),
+        '#options' => _cs_list_of_solvers($version_id, $simulation_id),
+        '#prefix' => '<div id="ajax-solver-replace">',
+        '#suffix' => '</div>',
+        /*'#states' => array(
+                'invisible' => array(
+                    ':input[name="simulation_type"]' => array(
+                        'value' => 13
+                    )
+                )
+            ),*/
+        '#default_value' => $proposal_data->solver_used
+    );
+}
+   /* $form['solver_used'] = array(
         '#type' => 'textfield',
         '#title' => t('Solver to be used'),
         '#size' => 50,
         '#maxlength' => 50,
         '#required' => true,
         '#default_value' => $proposal_data->solver_used,
-    );
+    );*/
     $form['date_of_proposal'] = array(
         '#type' => 'textfield',
         '#title' => t('Date of Proposal'),
@@ -953,6 +1061,24 @@ function cfd_case_study_proposal_edit_form($form, &$form_state)
         '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal'),
     );
     return $form;
+}
+
+function ajax_solver_used_callback($form, $form_state){
+    $version_id = isset($form_state['values']['version']) ? $form_state['values']['version'] : key($version_options);
+    $simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : key($simulation_type_options);
+    if($simulation_id < 13){
+        $form['solver_used']['#options'] = _cs_list_of_solvers($version_id, $simulation_id);
+        $commands[] = ajax_command_replace('#ajax-solver-replace', drupal_render($form['solver_used']));
+        $commands[] = ajax_command_html('#ajax-solver-text-replace', '');
+    }
+    else{
+        $commands[] = ajax_command_html('#ajax-solver-replace', '');
+        $commands[] = ajax_command_replace('#ajax-solver-text-replace', drupal_render($form['solver_used_text']));
+    }
+    return array(
+        '#type' => 'ajax',
+        '#commands' => $commands
+    );
 }
 function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 {
@@ -1014,7 +1140,6 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
     /* update proposal */
     $v = $form_state['values'];
     $project_title = $v['project_title'];
-    $solver_used = $v['solver_used'];
     $proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
     $university = $v['university'];
     $directory_names = _df_dir_name($project_title, $proposar_name);
@@ -1023,6 +1148,13 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
     } //LM_RenameDir($proposal_id, $directory_names)
     else {
         return;
+    }
+    $simulation_id = $v['simulation_type'];
+    if($simulation_id < 13){
+        $solver = $v['solver_used'];
+    }
+    else{
+        $solver = $v['solver_used_text'];
     }
     $query = "UPDATE case_study_proposal SET
 				name_title=:name_title,
@@ -1037,6 +1169,8 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
 				pincode=:pincode,
 				state=:state,
 				project_title=:project_title,
+                version_id=:version_id,
+                simulation_type_id=:simulation_type_id,
 				solver_used=:solver_used,
 				directory_name=:directory_name
 				WHERE id=:proposal_id";
@@ -1053,7 +1187,9 @@ function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
         ':pincode' => $v['pincode'],
         ':state' => $v['all_state'],
         ':project_title' => $project_title,
-        ":solver_used" => $solver_used,
+        ':version_id' => $v['version'],
+        ':simulation_type_id' => $simulation_id,
+        ":solver_used" => $solver,
         ':directory_name' => $directory_name,
         ':proposal_id' => $proposal_id,
     );

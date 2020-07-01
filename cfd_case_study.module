@@ -76,7 +76,7 @@ function cfd_case_study_menu()
         'title' => 'Edit code files',
         'description' => 'Edit code files',
         'page callback' => 'cfd_case_study_proposal_edit_file_all',
-        'access callback' => 'Case Study approve abstract',
+        'access callback' => 'user_access',
         'access arguments' => array(
             'Case Study manage proposal',
         ),
@@ -142,7 +142,7 @@ function cfd_case_study_menu()
         'title' => 'Case Study Project Directory edit uploaded files for proposal',
         'description' => 'Project Edit Upload',
         'page callback' => 'drupal_get_form',
-        'access callback' => 'Case Study approve abstract',
+        'access callback' => 'user_access',
         'page arguments' => array(
             'cfd_case_study_edit_upload_abstract_code_form',
         ),
@@ -590,6 +590,47 @@ function _cs_list_of_case_studies()
         $existing_case_studies[$case_study_list_data->project_title_name] = $case_study_list_data->project_title_name;
     }
     return $existing_case_studies;
+}
+
+function _cs_list_of_versions(){
+    $versions = array(
+         0 => '-Select-',
+         );
+    $query = db_select('case_study_software_version');
+    $query->fields('case_study_software_version');
+    $version_list = $query->execute();
+    while($version_data = $version_list->fetchObject()){
+        $versions[$version_data->id] = $version_data->case_study_version;
+    }
+    return $versions;
+}
+
+function _cs_list_of_simulation_types(){
+    $simulation_types = array(
+        0 => '-Select-'
+        );
+    $query = db_select('case_study_simulation_type');
+    $query->fields('case_study_simulation_type');
+    $simulation_type_list = $query->execute();
+    while ($simulation_type_data = $simulation_type_list->fetchObject()) {
+        $simulation_types[$simulation_type_data->id] = $simulation_type_data->simulation_type;
+    }
+    return $simulation_types;
+}
+
+function _cs_list_of_solvers($version_id, $simulation_id){
+    $version_id = $version_id;
+    $simulation_id = $simulation_id;
+    $solvers = array();
+    $query = db_select('case_study_solvers');
+    $query->fields('case_study_solvers');
+    $query->condition('version_id',$version_id);
+    $query->condition('simulation_type_id',$simulation_id);
+    $solvers_list = $query->execute();
+    while($solvers_data = $solvers_list->fetchObject()){
+        $solvers[$solvers_data->solver_name] = $solvers_data->solver_name;
+    }
+    return $solvers;
 }
 
 function _df_dir_name($project, $proposar_name)
