@@ -323,7 +323,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#title' => t('Solver to be used'),
 		'#size' => 100,
 		'#description' => t('Maximum character limit is 50'),
-		'#required' => TRUE,
+		//'#required' => TRUE,
 		'#prefix' => '<div id="ajax-solver-text-replace">',
 		'#suffix' => '</div>',
 		'#states' => array(
