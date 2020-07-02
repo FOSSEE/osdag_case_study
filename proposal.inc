@@ -510,7 +510,7 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 			$form_state['values']['how_did_you_know_about_project'] = $form_state['values']['others_how_did_you_know_about_project'];
 		}
 	}
-	if ($form_state['values']['faculty_name'] != '' || $form_state['values']['faculty_name'] != "NULL") {
+	/*if ($form_state['values']['faculty_name'] != '' || $form_state['values']['faculty_name'] != "NULL") {
 		if($form_state['values']['faculty_email'] == '' || $form_state['values']['faculty_email'] == "NULL")
 		{
 			form_set_error('faculty_email', t('Please enter the email id of your faculty'));
@@ -518,7 +518,7 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 		if($form_state['values']['faculty_department'] == '' || $form_state['values']['faculty_department'] == 'NULL'){
 			form_set_error('faculty_department', t('Please enter the Department of your faculty'));
 		}
-	}
+	}*/
 	
 if (isset($_FILES['files']))
 	{
