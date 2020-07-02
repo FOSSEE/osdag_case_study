@@ -58,6 +58,9 @@ function cfd_case_study_proposal_all()
             case 3:
                 $approval_status = 'Completed';
                 break;
+            case 5:
+                $approval_status = 'On Hold';
+                break;
             default:
                 $approval_status = 'Unknown';
                 break;
@@ -666,6 +669,9 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
         case 3:
             $proposal_status = t('Completed');
             break;
+        case 5:
+                $approval_status = t('On Hold');
+                break;
         default:
             $proposal_status = t('Unkown');
             break;

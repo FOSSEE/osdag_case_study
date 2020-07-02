@@ -489,10 +489,10 @@ function cfd_case_study_proposal_form_validate($form, &$form_state)
 			form_set_error('solver_used_text', t('Minimum charater limit is 7 charaters, please check the length of the solver used'));
 		} //strlen($form_state['values']['project_title']) < 10
 	} //$form_state['values']['project_title'] != ''
-	else
+	/*else
 	{
 		form_set_error('solver_used_text', t('Solver used cannot be empty'));
-	}
+	}*/
 	if(strtotime(date($form_state['values']['expected_date_of_completion'])) < time())
 	{
 		form_set_error('expected_date_of_completion', t('Completion date should not be earlier than proposal date'));
