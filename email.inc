@@ -282,18 +282,14 @@ FOSSEE,IIT Bombay', array(
                 'body' => t('
 Dear !user_name,
 
-You have updated the following abstract/ project files for case studies:
+You have updated the abstract/ project files for the following case study:
 
 Project Title: ' . $proposal_data->project_title . '
-
-Abstract File: ' . $abs_file_name . '
-
-Project File: ' . $proj_file_name . '
 
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user->name,
                 ), array(
