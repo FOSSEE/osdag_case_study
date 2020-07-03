@@ -593,9 +593,7 @@ function _cs_list_of_case_studies()
 }
 
 function _cs_list_of_versions(){
-    $versions = array(
-         0 => '-Select-',
-         );
+    $versions = array();
     $query = db_select('case_study_software_version');
     $query->fields('case_study_software_version');
     $version_list = $query->execute();
@@ -606,9 +604,7 @@ function _cs_list_of_versions(){
 }
 
 function _cs_list_of_simulation_types(){
-    $simulation_types = array(
-        0 => '-Select-'
-        );
+    $simulation_types = array();
     $query = db_select('case_study_simulation_type');
     $query->fields('case_study_simulation_type');
     $simulation_type_list = $query->execute();
@@ -621,7 +617,9 @@ function _cs_list_of_simulation_types(){
 function _cs_list_of_solvers($version_id, $simulation_id){
     $version_id = $version_id;
     $simulation_id = $simulation_id;
-    $solvers = array();
+    $solvers = array(
+        0 => '-Select-',
+        );
     $query = db_select('case_study_solvers');
     $query->fields('case_study_solvers');
     $query->condition('version_id',$version_id);
