@@ -30,13 +30,13 @@ function cfd_case_study_completed_proposals_all()
 			$query1->condition('proposal_id', $proposal_id);
 			$case_study_files = $query1->execute();
 			$case_study_abstract = $case_study_files->fetchObject();
-			$project_title = l($row->project_title, "case-study-project/case-study-run/" . $row->id);
-			$year = date("Y", $row->actual_completion_date);
 			$solver_used = $row->solver_used;
+			$project_title = l($row->project_title, "case-study-project/case-study-run/" . $row->id) . t("<br><strong>(Solver used: ") . $solver_used . t(")</strong>") ;
+			$year = date("Y", $row->actual_completion_date);
 			$preference_rows[] = array(
 				$i,
 				$project_title,
-				$solver_used,
+				//$solver_used,
 				$row->contributor_name,
 				$row->university,
 				$year
@@ -46,7 +46,7 @@ function cfd_case_study_completed_proposals_all()
 		$preference_header = array(
 			'No',
 			'Case Study Project',
-			'Solver used',
+			//'Solver used',
 			'Contributor Name',
 			'University/ Institute',
 			'Year of Completion'
