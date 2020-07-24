@@ -218,9 +218,9 @@ function generate_pdf()
 	while (!feof($fp)) {
 		echo fread($fp, filesize($file));
 		flush();
-		//ob_end_flush();
-		//ob_clean();
 	} //!feof($fp)
+	ob_end_flush();
+	ob_clean();
 	fclose($fp);
 	unlink($file);
 	//drupal_goto('flowsheeting-project/certificate');
