@@ -42,7 +42,8 @@ function generate_pdf()
 	} //!$pdf
 	$pdf->AddPage();
 	$image_bg = $mpath . "/pdf/images/bg_cert.png";
-	$pdf->Image($image_bg, 0, 0, $pdf->w, $pdf->h);
+	//$pdf->Image($image_bg, 0, 0, $pdf->w, $pdf->h);
+	$pdf->Image($image_bg, 0, 0, $pdf->GetPageWidth(), $pdf->GetPageHeight());
 	//$pdf->Rect(5, 5, 267, 207, 'D');
 	$pdf->SetMargins(18, 1, 18);
 	//$pdf->Line(7.0, 7.0, 270.0, 7.0);
@@ -200,17 +201,25 @@ function generate_pdf()
 	$filename = str_replace(' ', '-', $data3->contributor_name) . '-CFD-case-study-Certificate.pdf';
 	$file     = $path . '/pdf/temp_certificate/' . $proposal_id . '_' . $filename;
 	$pdf->Output($file, 'F');
-	header("Content-Type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=" . $filename);
-	header("Content-Type: application/octet-stream");
-	header("Content-Type: application/download");
+	ob_clean();
+	header("Pragma: public");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	header("Cache-Control: public");
 	header("Content-Description: File Transfer");
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=" . $filename);
 	header("Content-Length: " . filesize($file));
+	header("Content-Transfer-Encoding: binary");
+	header("Expires: 0");
+	header("Pragma: no-cache");
 	flush();
 	$fp = fopen($file, "r");
 	while (!feof($fp)) {
 		echo fread($fp, 65536);
 		flush();
+		ob_end_flush();
+		ob_clean();
 	} //!feof($fp)
 	fclose($fp);
 	unlink($file);
