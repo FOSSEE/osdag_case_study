@@ -162,40 +162,45 @@ function generate_pdf()
 	QRcode::png($codeContents, $pngAbsoluteFilePath);
 	$pdf->SetY(85);
 	$pdf->SetX(320);
-	$pdf->Ln(25);
-	$sign = $path . "/pdf/images/sign.png";
-	$pdf->Image($sign, $pdf->GetX()+70, $pdf->GetY() + 40, 80, 0);
-	$pdf->Image($pngAbsoluteFilePath, $pdf->GetX() + 206 , $pdf->GetY() + 40, 25,25, 0);
-	//$pdf->Cell(240, 8, 'Prof. Kannan M. Moudgalya', 0, 1, 'R');
-	//$pdf->SetX(199);
-	//$pdf->SetFont('Arial', '', 10);
-	//$pdf->Cell(0, 7, 'Co - Principal Investigator - FOSSEE', 0, 1, 'L');
-	//$pdf->SetX(190);
-	//$pdf->Cell(0, 7, ' Dept. of Chemical Engineering, IIT Bombay.', 0, 1, 'L');
+	$pdf->Ln(10);
+	$sign1 = $path . "/pdf/images/sign1.png";
+	$sign2 = $path . "/pdf/images/sign2.png";
+	$pdf->Image($sign1, $pdf->GetX()+75, $pdf->GetY() + 45, 60, 0);
+	$pdf->Image($sign2, $pdf->GetX()+160, $pdf->GetY() + 45, 75, 0);
+	$pdf->Image($pngAbsoluteFilePath, $pdf->GetX()+15, $pdf->GetY()+75, 30, 0);
+	$fossee = $path . "/pdf/images/fossee.png";
+	$mhrd = $path . "/pdf/images/mhrd.png"; 
+	$nia_logo = $path . "/pdf/images/nia.png";
+	
+	$start_date = 1606761000;
+	$end_date = 1640975364;
+	if($data3->approval_date > $start_date && $data3->approval_date < $end_date){
+		$pdf->Image($fossee, $pdf->GetX()+55, $pdf->GetY()+80, 50, 0);
+		$pdf->Image($nia_logo, $pdf->GetX()+135, $pdf->GetY()+80, 50, 0);
+		$pdf->Image($mhrd, $pdf->GetX()+200, $pdf->GetY()+80, 40, 0);
+		$pdf->Ln(2);
+	$ftr_line = $path . "/pdf/images/ftr_line.png"; 
+	$pdf->Image($ftr_line, $pdf->GetX()+15, $pdf->GetY()+105, 220, 0);
+	$pdf->Ln(3);
+	$ftr_line_2 = $path . "/pdf/images/ftr_line_2.png"; 
+	$pdf->Image($ftr_line_2, $pdf->GetX()+25, $pdf->GetY()+106, 190, 0);
+}
+else{
+	$pdf->Image($fossee, $pdf->GetX()+100, $pdf->GetY()+80, 50, 0);
+	$pdf->Image($mhrd, $pdf->GetX()+180, $pdf->GetY()+80, 40, 0);
+	$pdf->Ln(4);
+	$ftr_line = $path . "/pdf/images/ftr_line.png"; 
+	$pdf->Image($ftr_line, $pdf->GetX()+15, $pdf->GetY()+105, 220, 0);
+}
 	//$pdf->SetX(29);
+	//$pdf->SetY(-50);
+	
 	$pdf->SetFont('Times', 'I', 15);
-	//$pdf->SetY(-58);
-	$pdf->Ln(32);
-	$pdf->SetTextColor(0, 0, 0);
-	$pdf->Cell(228, 8, $UniqueString, '0', '1', 'R');
-	//$pdf->SetX(29);
-	//$pdf->SetY(-50);
-	//$image4 = $path . "/pdf/images/bottom_line.png";
-	//$pdf->Image($image4, $pdf->GetX(), $pdf->GetY(), 20, 0);
-	//$pdf->SetY(-50);
-	//$pdf->SetX(80);
-	//$image3 = $path . "/pdf/images/iitb.png";
-	//$image2 = $path . "/pdf/images/fossee.png"; 
-	
-	//$pdf->Ln(8);
-	//$pdf->Image($image2, $pdf->GetX() +15, $pdf->GetY() + 7, 40, 0);
+	$pdf->SetLeftMargin(40);
+	$pdf->GetY()+60;
+	$pdf->Ln(62);
+	$pdf->Cell(320, 8, $UniqueString, '0', '1', 'L');
 	//$pdf->Ln(6);
-	$pdf->SetY(150);
-	$pdf->SetX(800);
-	//$pdf->Ln(2);
-	
-	//$pdf->Image($image3, $pdf->GetX() + 200, $pdf->GetY() -3, 15, 0);
-	//$pdf->Image($image4, $pdf->GetX() +50, $pdf->GetY() + 28, 150, 0);
 	$pdf->SetFont('Arial', 'I', 8);
 	$pdf->SetTextColor(0, 0, 0);
 	$filename = str_replace(' ', '-', $data3->contributor_name) . '-CFD-case-study-Certificate.pdf';
@@ -274,13 +279,13 @@ function generate_copyright_form_pdf()
 		echo "Error!";
 	} //!$pdf
 	$pdf->AddPage();
-	$path = drupal_get_path('module', 'cfd_case_study');
+	$path = drupal_get_path('module', 'circuit_simulation');
 	$pdf->SetFont('Arial', 'B', 25);
 	$pdf->Ln(30);
 	$pdf->Cell(200, 8, 'Copyright Transfer Form', 0, 1, 'C');
 	$pdf->Ln(20);
 	$pdf->SetFont('Arial', '', 12);
-	$pdf->MultiCell(200, 8, 'I hereby transfer the copyrights of the Case study for ' . $data2->project_title . ' to FOSSEE Project, IIT Bombay.', 0);
+	$pdf->MultiCell(200, 8, 'I hereby transfer the copyrights of the DWSIM Flowsheeting Project for ' . $data2->project_title . ' to FOSSEE Project, IIT Bombay.', 0);
 	$pdf->Ln(10);
 	$pdf->MultiCell(200, 8, 'I  understand  that  the  FOSSEE  project  will  release  the  Flowsheet  under  the Creative Commons (CC) license.');
 	$pdf->SetX(75);
@@ -304,7 +309,7 @@ function generate_copyright_form_pdf()
 	$pdf->SetY(144);
 	$pdf->SetX(120);
 	$pdf->multicell(140, 14, 'Name: ' . $gender['salutation'] . ' ' . $data3->full_name . '', 0, '');
-	$filename = str_replace(' ', '-', $data3->full_name) . '-CFD-case-study-copyright-form.pdf';
+	$filename = str_replace(' ', '-', $data3->full_name) . '-eSim-Circuit-Simulation-copyright-form.pdf';
 	$file     = $path . '/pdf/temp_certificate/' . $proposal_id . '_' . $filename;
 	$pdf->Output($file, 'F');
 	header("Content-Type: application/octet-stream");
@@ -362,7 +367,7 @@ function generate_undertaking_form_pdf()
 		echo "Error!";
 	} //!$pdf
 	$pdf->AddPage();
-	$path = drupal_get_path('module', 'cfd_case_study');
+	$path = drupal_get_path('module', 'circuit_simulation');
 	$pdf->SetFont('Arial', 'B', 25);
 	$pdf->Ln(30);
 	$pdf->Cell(200, 8, 'Undertaking Form', 0, 1, 'C');
@@ -396,7 +401,7 @@ function generate_undertaking_form_pdf()
 	$pdf->multicell(140, 14, 'Name: ' . '____________________', 0, '');
 	$pdf->SetX(120);
 	$pdf->multicell(140, 14, 'Designation: ' . '______________', 0, '');
-	$filename = str_replace(' ', '-', $data3->full_name) . '-CFD-case-study-undertaking-form.pdf';
+	$filename = str_replace(' ', '-', $data3->full_name) . '-eSim-Circuit-Simulation-undertaking-form.pdf';
 	$file     = $path . '/pdf/temp_certificate/' . $proposal_id . '_' . $filename;
 	$pdf->Output($file, 'F');
 	header("Content-Type: application/octet-stream");
