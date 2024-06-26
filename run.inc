@@ -1,5 +1,5 @@
 <?php
-function cfd_case_study_run_form($form, &$form_state)
+function osdag_case_study_run_form($form, &$form_state)
 {
 	$options_first = _list_of_case_study();
 	$url_case_study_id = (int) arg(2);

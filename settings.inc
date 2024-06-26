@@ -1,6 +1,6 @@
 <?php
 // $Id$
-function cfd_case_study_settings_form($form, $form_state)
+function osdag_case_study_settings_form($form, $form_state)
 {
 	$form['emails'] = array(
 		'#type' => 'textfield',
@@ -71,11 +71,11 @@ function cfd_case_study_settings_form($form, $form_state)
 	);
 	return $form;
 }
-function cfd_case_study_settings_form_validate($form, &$form_state)
+function osdag_case_study_settings_form_validate($form, &$form_state)
 {
 	return;
 }
-function cfd_case_study_settings_form_submit($form, &$form_state)
+function osdag_case_study_settings_form_submit($form, &$form_state)
 {
 	variable_set('case_study_emails', $form_state['values']['emails']);
 	variable_set('case_study_cc_emails', $form_state['values']['cc_emails']);

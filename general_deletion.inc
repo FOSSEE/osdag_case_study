@@ -5,7 +5,7 @@
 function case_study_abstract_delete_project($proposal_id)
 {
 	$status = TRUE;
-	$root_path = cfd_case_study_path();
+	$root_path = osdag_case_study_path();
 	$query = db_select('case_study_proposal');
 	$query->fields('case_study_proposal');
 	$query->condition('id', $proposal_id);

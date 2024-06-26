@@ -60,7 +60,7 @@ function add_project_title_form_validate($form, &$form_state) {
 				if ($_FILES['files']['size'][$file_form_name] <= 0)
 					form_set_error($file_form_name, t('File size cannot be zero.'));
 				/* check if valid file name */
-				if (!cfd_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name]))
+				if (!osdag_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name]))
 					form_set_error($file_form_name, t('Invalid file name specified. Only alphabets and numbers are allowed as a valid filename.'));
 			} //$file_name
 		} //$_FILES['files']['name'] as $file_form_name => $file_name
@@ -84,7 +84,7 @@ function add_project_title_form_submit($form, &$form_state) {
 	$result1 = db_query($result, $args, array(
 		'return' => Database::RETURN_INSERT_ID
 	));
-	$dest_path = cfd_case_study_project_titles_resource_file_path();
+	$dest_path = osdag_case_study_project_titles_resource_file_path();
 	//var_dump($dest_path);die;
 	foreach ($_FILES['files']['name'] as $file_form_name => $file_name)
 	{

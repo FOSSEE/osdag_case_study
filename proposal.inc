@@ -21,7 +21,7 @@ case_study_solution : approval_status
 1 - Approved
 2 - Disapproved (delete it)
 */
-function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
+function osdag_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 {
 	global $user;
 	/************************ start approve book details ************************/
@@ -251,9 +251,9 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 	$list_case_study = _cs_list_of_case_studies();
 	if(!empty($list_case_study))
 	{
-	$form['cfd_project_title_check'] = array(
+	$form['osdag_project_title_check'] = array(
             '#type' => 'radios',
-            '#title' => t('Is the proposed CFD Case study from the list of available CFD Case studies?'),
+            '#title' => t('Is the proposed osdag Case study from the list of available osdag Case studies?'),
             '#options' => array(
 			'1' => 'Yes',
 			'0' => 'No',
@@ -261,15 +261,15 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
             '#required' => TRUE,
             '#validated' => TRUE,
 	);
-	$form['cfd_case_study_name_dropdown'] = array(
+	$form['osdag_case_study_name_dropdown'] = array(
             '#type' => 'select',
-            '#title' => t('Select the name of available cfd'),
+            '#title' => t('Select the name of available osdag'),
             '#required' => TRUE,
             '#options' => _cs_list_of_case_studies(),
            	'#validated' => TRUE,
             '#states' => array(
                 'visible' => array(
-                    ':input[name="cfd_project_title_check"]' => array(
+                    ':input[name="osdag_project_title_check"]' => array(
                         'value' => '1'
                     )
                 )
@@ -284,7 +284,7 @@ function cfd_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#validated' => TRUE,
 		'#states' => array(
                 'visible' => array(
-                    ':input[name="cfd_project_title_check"]' => array(
+                    ':input[name="osdag_project_title_check"]' => array(
                         'value' => '0'
                     )
                 )
@@ -424,12 +424,12 @@ function ajax_solver_used_callback($form, $form_state){
     );
 }
 
-function cfd_case_study_proposal_form_validate($form, &$form_state)
+function osdag_case_study_proposal_form_validate($form, &$form_state)
 {
 	//var_dump($form_state['values']['solver_used']);die;
-	if($form_state['values']['cfd_project_title_check'] == 1)
+	if($form_state['values']['osdag_project_title_check'] == 1)
 	{
-		$project_title = $form_state['values']['cfd_case_study_name_dropdown'];
+		$project_title = $form_state['values']['osdag_case_study_name_dropdown'];
 	}
 	else{
 
@@ -575,6 +575,7 @@ if (isset($_FILES['files']))
 				if ($_FILES['files']['size'][$file_form_name] <= 0)
 					form_set_error($file_form_name, t('File size cannot be zero.'));
 				/* check if valid file name */
+				
 				if (!textbook_companion_check_valid_filename($_FILES['files']['name'][$file_form_name]))
 					form_set_error($file_form_name, t('Invalid file name specified. Only alphabets and numbers are allowed as a valid filename.'));
 			} //$file_name
@@ -582,7 +583,7 @@ if (isset($_FILES['files']))
 	} 
 	return $form_state;
 }
-function cfd_case_study_proposal_form_submit($form, &$form_state)
+function osdag_case_study_proposal_form_submit($form, &$form_state)
 {
 	global $user;
 	$root_path = case_study_path();
@@ -591,9 +592,9 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 		drupal_set_message('It is mandatory to login on this website to access the proposal form', 'error');
 		return;
 	}
-	if($form_state['values']['cfd_project_title_check'] == 1)
+	if($form_state['values']['osdag_project_title_check'] == 1)
 	{
-		$project_title = $form_state['values']['cfd_case_study_name_dropdown'];
+		$project_title = $form_state['values']['osdag_case_study_name_dropdown'];
 	}
 	else{
 
@@ -785,7 +786,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 			} //move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name])
 			else
 			{
-				drupal_set_message('Error uploading file : ' . $dest_path . '/' . $file_name, 'error');
+				drupal_set_message('Error uploading file : ' . $dest_path . $file_name, 'error');
 			}
 		} //$file_name
 	} //$_FILES['files']['name'] as $file_form_name => $file_name
@@ -817,5 +818,7 @@ function cfd_case_study_proposal_form_submit($form, &$form_state)
 }
 
 function case_study_path() {
-  return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'cfd_uploads/case_study_uploads/';
+  return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'osdag_uploads/case_study_uploads/';
+
 }
+// var_dump($dest_path);die;

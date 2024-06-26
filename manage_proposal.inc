@@ -1,6 +1,6 @@
 <?php
 // $Id$
-function cfd_case_study_proposal_pending()
+function osdag_case_study_proposal_pending()
 {
     /* get pending proposals to be approved */
     $pending_rows = array();
@@ -35,7 +35,7 @@ function cfd_case_study_proposal_pending()
     ));
     return $output;
 }
-function cfd_case_study_proposal_all()
+function osdag_case_study_proposal_all()
 {
     /* get pending proposals to be approved */
     $proposal_rows = array();
@@ -107,7 +107,7 @@ function cfd_case_study_proposal_all()
     ));
     return $output;
 }
-function cfd_case_study_proposal_edit_file_all()
+function osdag_case_study_proposal_edit_file_all()
 {
     /* get pending proposals to be approved */
     $proposal_rows = array();
@@ -186,7 +186,7 @@ function cfd_case_study_proposal_edit_file_all()
 /******************************************************************************/
 /************************** PROPOSAL APPROVAL FORM ****************************/
 /******************************************************************************/
-function cfd_case_study_proposal_approval_form($form, &$form_state)
+function osdag_case_study_proposal_approval_form($form, &$form_state)
 {
     global $user;
     /* get current proposal */
@@ -353,7 +353,7 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
     }
     $form['approval'] = array(
         '#type' => 'radios',
-        '#title' => t('CFD Case Study proposal'),
+        '#title' => t('osdag Case Study proposal'),
         '#options' => array(
             '1' => 'Approve',
             '2' => 'Disapprove',
@@ -386,7 +386,7 @@ function cfd_case_study_proposal_approval_form($form, &$form_state)
     );
     return $form;
 }
-function cfd_case_study_proposal_approval_form_validate($form, &$form_state)
+function osdag_case_study_proposal_approval_form_validate($form, &$form_state)
 {
     if ($form_state['values']['approval'] == 2) {
         if ($form_state['values']['message'] == '') {
@@ -394,7 +394,7 @@ function cfd_case_study_proposal_approval_form_validate($form, &$form_state)
         } //$form_state['values']['message'] == ''
     } //$form_state['values']['approval'] == 2
 }
-function cfd_case_study_proposal_approval_form_submit($form, &$form_state)
+function osdag_case_study_proposal_approval_form_submit($form, &$form_state)
 {
     global $user;
     /* get current proposal */
@@ -447,7 +447,7 @@ function cfd_case_study_proposal_approval_form_submit($form, &$form_state)
             drupal_set_message('Error sending email message.', 'error');
         }
 
-        drupal_set_message('CFD Case Study proposal No. ' . $proposal_id . ' approved. User has been notified of the approval.', 'status');
+        drupal_set_message('osdag Case Study proposal No. ' . $proposal_id . ' approved. User has been notified of the approval.', 'status');
         drupal_goto('case-study-project/manage-proposal');
         return;
     } //$form_state['values']['approval'] == 1
@@ -481,7 +481,7 @@ function cfd_case_study_proposal_approval_form_submit($form, &$form_state)
             drupal_set_message('Error sending email message.', 'error');
         }
 
-        drupal_set_message('CFD Case Study proposal No. ' . $proposal_id . ' dis-approved. User has been notified of the dis-approval.', 'error');
+        drupal_set_message('osdag Case Study proposal No. ' . $proposal_id . ' dis-approved. User has been notified of the dis-approval.', 'error');
         drupal_goto('case-study-project/manage-proposal');
         return;
     } //$form_state['values']['approval'] == 2
@@ -489,7 +489,7 @@ function cfd_case_study_proposal_approval_form_submit($form, &$form_state)
 /******************************************************************************/
 /*************************** PROPOSAL STATUS FORM *****************************/
 /******************************************************************************/
-function cfd_case_study_proposal_status_form($form, &$form_state)
+function osdag_case_study_proposal_status_form($form, &$form_state)
 {
     global $user;
     /* get current proposal */
@@ -712,7 +712,7 @@ function cfd_case_study_proposal_status_form($form, &$form_state)
     );
     return $form;
 }
-function cfd_case_study_proposal_status_form_submit($form, &$form_state)
+function osdag_case_study_proposal_status_form_submit($form, &$form_state)
 {
     global $user;
     /* get current proposal */
@@ -772,7 +772,7 @@ function cfd_case_study_proposal_status_form_submit($form, &$form_state)
             drupal_set_message('Error sending email message.', 'error');
         }
 
-        drupal_set_message('Congratulations! CFD Case Study proposal has been marked as completed. User has been notified of the completion.', 'status');
+        drupal_set_message('Congratulations! osdag Case Study proposal has been marked as completed. User has been notified of the completion.', 'status');
     }
     drupal_goto('case-study-project/manage-proposal');
     return;
@@ -781,7 +781,7 @@ function cfd_case_study_proposal_status_form_submit($form, &$form_state)
 /******************************************************************************/
 /**************************** PROPOSAL EDIT FORM ******************************/
 /******************************************************************************/
-function cfd_case_study_proposal_edit_form($form, &$form_state)
+function osdag_case_study_proposal_edit_form($form, &$form_state)
 {
     global $user;
     /* get current proposal */
@@ -1086,7 +1086,7 @@ function ajax_solver_used_callback($form, $form_state){
         '#commands' => $commands
     );
 }
-function cfd_case_study_proposal_edit_form_validate($form, $form_state){
+function osdag_case_study_proposal_edit_form_validate($form, $form_state){
     if ($form_state['values']['simulation_type'] < 19) {
         if($form_state['values']['solver_used'] == '0'){
             form_set_error('solver_used', t('Please select an option'));
@@ -1110,7 +1110,7 @@ function cfd_case_study_proposal_edit_form_validate($form, $form_state){
     }
     }
 }
-function cfd_case_study_proposal_edit_form_submit($form, &$form_state)
+function osdag_case_study_proposal_edit_form_submit($form, &$form_state)
 {
     global $user;
     /* get current proposal */

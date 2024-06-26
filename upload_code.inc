@@ -1,10 +1,10 @@
 <?php
 // $Id$
-function cfd_case_study_abstract()
+function osdag_case_study_abstract()
 {
     global $user;
     $return_html = "";
-    $proposal_data = cfd_case_study_get_proposal();
+    $proposal_data = osdag_case_study_get_proposal();
     if (!$proposal_data) {
         drupal_goto('');
         return;
@@ -70,7 +70,7 @@ function cfd_case_study_abstract()
     $return_html .= $url . '<br />';
     return $return_html;
 }
-function cfd_case_study_upload_abstract_code_form($form, &$form_state)
+function osdag_case_study_upload_abstract_code_form($form, &$form_state)
 {
     global $user;
     $form['#attributes'] = array(
@@ -139,7 +139,7 @@ function cfd_case_study_upload_abstract_code_form($form, &$form_state)
         '#type' => 'submit',
         '#value' => t('Submit'),
         '#submit' => array(
-            'cfd_case_study_upload_abstract_code_form_submit',
+            'osdag_case_study_upload_abstract_code_form_submit',
         ),
     );
     $form['cancel'] = array(
@@ -150,7 +150,7 @@ function cfd_case_study_upload_abstract_code_form($form, &$form_state)
 }
 
 ///////////////////////////////////////////////////////////////
-function cfd_case_study_upload_abstract_code_form_validate($form, &$form_state)
+function osdag_case_study_upload_abstract_code_form_validate($form, &$form_state)
 {
     //var_dump($form);die;
     if (isset($_FILES['files'])) {
@@ -176,7 +176,7 @@ function cfd_case_study_upload_abstract_code_form_validate($form, &$form_state)
                 }
 
                 /* check if valid file name */
-                if (!cfd_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
+                if (!osdag_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
                     form_set_error($file_form_name, t('Invalid file name specified. Only alphabets and numbers are allowed as a valid filename.'));
                 }
 
@@ -185,12 +185,12 @@ function cfd_case_study_upload_abstract_code_form_validate($form, &$form_state)
     }
     return $form_state;
 }
-function cfd_case_study_upload_abstract_code_form_submit($form, &$form_state)
+function osdag_case_study_upload_abstract_code_form_submit($form, &$form_state)
 {
     global $user;
     $v = $form_state['values'];
-    $root_path = cfd_case_study_path();
-    $proposal_data = cfd_case_study_get_proposal();
+    $root_path = osdag_case_study_path();
+    $proposal_data = osdag_case_study_get_proposal();
     $proposal_id = $proposal_data->id;
     if (!$proposal_data) {
         drupal_goto('');
@@ -374,7 +374,7 @@ function default_value_for_uploaded_files($filetype, $proposal_id)
     }
     return;
 }
-function cfd_case_study_edit_upload_abstract_code_form($form, &$form_state)
+function osdag_case_study_edit_upload_abstract_code_form($form, &$form_state)
 {
     global $user;
     $form['#attributes'] = array(
@@ -446,7 +446,7 @@ function cfd_case_study_edit_upload_abstract_code_form($form, &$form_state)
         '#type' => 'submit',
         '#value' => t('Submit'),
         '#submit' => array(
-            'cfd_case_study_edit_upload_abstract_code_form_submit',
+            'osdag_case_study_edit_upload_abstract_code_form_submit',
         ),
     );
     $form['cancel'] = array(
@@ -456,7 +456,7 @@ function cfd_case_study_edit_upload_abstract_code_form($form, &$form_state)
     return $form;
 }
 ///////////////////////////////////////////////////////////////
-function cfd_case_study_edit_upload_abstract_code_form_validate($form, &$form_state)
+function osdag_case_study_edit_upload_abstract_code_form_validate($form, &$form_state)
 {
 
     if (!($_FILES['files']['name']['upload_case_study_abstract'] || $_FILES['files']['name']['upload_case_study_developed_process'])) {
@@ -498,7 +498,7 @@ function cfd_case_study_edit_upload_abstract_code_form_validate($form, &$form_st
                 }
 
                 /* check if valid file name */
-                if (!cfd_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
+                if (!osdag_case_study_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
                     form_set_error($file_form_name, t('Invalid file name specified. Only alphabets and numbers are allowed as a valid filename.'));
                 }
 
@@ -510,11 +510,11 @@ function cfd_case_study_edit_upload_abstract_code_form_validate($form, &$form_st
     }
 
 }
-function cfd_case_study_edit_upload_abstract_code_form_submit($form, &$form_state)
+function osdag_case_study_edit_upload_abstract_code_form_submit($form, &$form_state)
 {
     global $user;
     $v = $form_state['values'];
-    $root_path = cfd_case_study_path();
+    $root_path = osdag_case_study_path();
     $query = db_select('case_study_proposal');
     $query->fields('case_study_proposal');
     $query->condition('id', $v['prop_id']);

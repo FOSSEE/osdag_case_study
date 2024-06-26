@@ -3,7 +3,7 @@
 function list_of_available_project_titles()
 {
 	$output = "";
-	//$static_url = "https://static.fossee.in/cfd/project-titles/";
+	//$static_url = "https://static.fossee.in/osdag/project-titles/";
 	$preference_rows = array();
 		$i = 1;
 	$query = db_query("SELECT * from list_of_project_titles WHERE {project_title_name} NOT IN( SELECT  project_title from case_study_proposal WHERE approval_status = 0 OR approval_status = 1 OR approval_status = 3)");
@@ -28,7 +28,7 @@ function list_of_available_project_titles()
 }
 function download_case_study_project_title_files() {
 	$id = arg(3);
-	$root_path = cfd_case_study_project_titles_resource_file_path();
+	$root_path = osdag_case_study_project_titles_resource_file_path();
 	$query = db_select('list_of_project_titles');
 	$query->fields('list_of_project_titles');
 	$query->condition('id', $id);

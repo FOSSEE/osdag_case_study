@@ -1,6 +1,6 @@
 <?php
 
-function cfd_case_study_abstract_bulk_approval_form($form, &$form_state)
+function osdag_case_study_abstract_bulk_approval_form($form, &$form_state)
 {
 	$options_first = _bulk_list_of_case_study_project();
 	$selected = isset($form_state['values']['case_study_project']) ? $form_state['values']['case_study_project'] : key($options_first);
@@ -85,11 +85,11 @@ function ajax_bulk_case_study_abstract_details_callback($form, $form_state)
 	);
 }
 /************************************************************/
-function cfd_case_study_abstract_bulk_approval_form_submit($form, &$form_state)
+function osdag_case_study_abstract_bulk_approval_form_submit($form, &$form_state)
 {
 	global $user;
 	$msg = '';
-	$root_path = cfd_case_study_path();
+	$root_path = osdag_case_study_path();
 	//var_dump($root_path);die;
 	if ($form_state['clicked_button']['#value'] == 'Submit')
 	{

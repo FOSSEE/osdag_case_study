@@ -1,10 +1,10 @@
 <?php
 // $Id$
-function cfd_case_study_download_full_project()
+function osdag_case_study_download_full_project()
 {
 	global $user;
 	$id = arg(3);
-	$root_path = cfd_case_study_path();
+	$root_path = osdag_case_study_path();
 	//var_dump($root_path);die;
 	$query = db_select('case_study_proposal');
 	$query->fields('case_study_proposal');
@@ -28,8 +28,8 @@ function cfd_case_study_download_full_project()
 	$query->fields('case_study_submitted_abstracts_file');
 	$query->condition('proposal_id', $id);
 	$project_files = $query->execute();
-	while ($cfd_project_files = $project_files->fetchObject()) {
-		$zip->addFile($root_path . $CASE_STUDY_PATH . $cfd_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($cfd_project_files->filename)));
+	while ($osdag_project_files = $project_files->fetchObject()) {
+		$zip->addFile($root_path . $CASE_STUDY_PATH . $osdag_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($osdag_project_files->filename)));
 	}
 	$zip_file_count = $zip->numFiles;
 	$zip->close();
@@ -69,7 +69,7 @@ function circuit_simulation_download_completed_project()
 {
 		global $user;
 	$id = arg(3);
-	$root_path = cfd_case_study_path();
+	$root_path = osdag_case_study_path();
 	$query = db_select('case_study_proposal');
 	$query->fields('case_study_proposal');
 	$query->condition('id', $id);
@@ -93,8 +93,8 @@ function circuit_simulation_download_completed_project()
 	$query->condition('proposal_id', $id);
 	$project_files = $query->execute();
 	//var_dump($root_path . $CASE_STUDY_PATH . 'project_files/');die;
-	while ($cfd_project_files = $project_files->fetchObject()) {
-		$zip->addFile($root_path . $CASE_STUDY_PATH . 'project_files/' . $cfd_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($cfd_project_files->filename)));
+	while ($osdag_project_files = $project_files->fetchObject()) {
+		$zip->addFile($root_path . $CASE_STUDY_PATH . 'project_files/' . $osdag_project_files->filepath, $CASE_STUDY_PATH . str_replace(' ', '_', basename($osdag_project_files->filename)));
 	}
 	$zip_file_count = $zip->numFiles;
 	$zip->close();

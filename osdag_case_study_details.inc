@@ -1,6 +1,6 @@
 <?php
 // case study display completed proposals
-function cfd_case_study_completed_proposals_all()
+function osdag_case_study_completed_proposals_all()
 {
 	$output = "";
 	$query = db_select('case_study_proposal');
@@ -60,7 +60,7 @@ function cfd_case_study_completed_proposals_all()
 	return $output;
 }
 // case study display in progress proposals
-function cfd_case_study_progress_all()
+function osdag_case_study_progress_all()
 {
 	$page_content = "";
 	$query = db_select('case_study_proposal');
